@@ -1,0 +1,19 @@
+@import "~./fonts.scss";
+
+body,
+#root {
+    height: 100%;
+}
+
+#root {
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+}
+
+.App {
+    display: flex;
+    height: 100vh;
+}
