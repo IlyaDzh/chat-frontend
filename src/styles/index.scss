@@ -1,5 +1,9 @@
 @import "~./fonts.scss";
 
+* {
+    box-sizing: border-box;
+}
+
 body,
 #root {
     height: 100%;
@@ -13,7 +17,7 @@ body {
     margin: 0;
 }
 
-.App {
+.home {
     display: flex;
     height: 100vh;
 }

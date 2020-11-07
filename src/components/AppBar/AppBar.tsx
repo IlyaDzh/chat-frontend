@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         justifyContent: "space-between"
     },
     appBarAvatar: {
-        padding: "22px"
+        padding: "20px"
     }
 }));
 

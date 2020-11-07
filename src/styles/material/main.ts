@@ -3,7 +3,9 @@ import { createMuiTheme } from "@material-ui/core";
 export default createMuiTheme({
     overrides: {
         MuiButton: {
-            root: {},
+            root: {
+                textTransform: "unset"
+            },
             containedPrimary: {},
             containedSecondary: {},
             outlinedPrimary: {},
@@ -17,10 +19,10 @@ export default createMuiTheme({
     },
     palette: {
         primary: {
-            main: "#00c0cc"
+            main: "#f45454"
         },
         secondary: {
-            main: "#dff6f9"
+            main: "#f8f8f8"
         },
         text: {
             primary: "#00c0cc",
@@ -36,28 +38,24 @@ export default createMuiTheme({
             color: "#1b1b1b"
         },
         h1: {
-            fontSize: "50px",
+            fontSize: "30px",
             fontWeight: "bold"
         },
         h2: {
-            fontSize: "42px",
-            fontWeight: 400
+            fontSize: "26px"
         },
         h3: {
-            fontSize: "32px"
+            fontSize: "22px"
         },
         h4: {
-            fontSize: "24px"
-        },
-        h5: {
             fontSize: "20px"
         },
-        h6: {
-            fontSize: "18px",
-            fontWeight: 600
+        h5: {
+            fontSize: "18px"
         },
-        caption: {
-            fontSize: "13px"
+        h6: {
+            fontSize: "14px",
+            fontWeight: "bold"
         },
         fontFamily: "Open Sans, sans-serif"
     }
