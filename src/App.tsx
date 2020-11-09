@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect, RouteProps } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import { AppBar } from "./components";
 import {
@@ -25,7 +25,7 @@ const HomeRoutes: React.FC = () => {
 };
 
 export const App: React.FC = () => {
-    const isAuthorized = true;
+    const isAuthorized = false;
 
     return (
         <Switch>

@@ -1,6 +1,13 @@
 import React from "react";
-import { Typography, Button, Badge, makeStyles, Theme } from "@material-ui/core";
-import PlusIcon from "@material-ui/icons/Add";
+import {
+    Typography,
+    Button,
+    Badge,
+    TextField,
+    makeStyles,
+    Theme
+} from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
     chats: {
@@ -22,16 +29,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     chatsTabs: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: "15px"
     },
     chatsTabsItem: {
         cursor: "pointer",
         marginRight: "20px",
-        paddingRight: "16px"
+        paddingRight: "20px"
     },
     chatsTabsItemBadge: {
         top: "6px"
-    }
+    },
+    chatsList: {}
 }));
 
 export const Chats: React.FC = () => {
@@ -40,14 +49,14 @@ export const Chats: React.FC = () => {
     return (
         <div className={classes.chats}>
             <div className={classes.chatsHeader}>
-                <Typography variant="h1">Chats</Typography>
+                <Typography variant="h1">Чаты</Typography>
                 <Button
                     className={classes.addDialogBtn}
                     variant="contained"
                     color="primary"
                     disableElevation
                 >
-                    <PlusIcon />
+                    <Add />
                 </Button>
             </div>
             <div className={classes.chatsTabs}>
@@ -64,7 +73,7 @@ export const Chats: React.FC = () => {
                     variant="dot"
                     color="primary"
                 >
-                    <Typography variant="h6">Direct</Typography>
+                    <Typography variant="h6">Личные</Typography>
                 </Badge>
                 <Badge
                     classes={{
@@ -79,8 +88,13 @@ export const Chats: React.FC = () => {
                     variant="dot"
                     color="primary"
                 >
-                    <Typography variant="h6" color="textSecondary">Groups</Typography>
+                    <Typography variant="h6" color="textSecondary">
+                        Группы
+                    </Typography>
                 </Badge>
+            </div>
+            <div className={classes.chatsList}>
+                <TextField variant="filled" placeholder="Поиск" fullWidth />
             </div>
         </div>
     );

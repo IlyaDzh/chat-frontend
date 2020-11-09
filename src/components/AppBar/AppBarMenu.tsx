@@ -2,11 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { List, ListItem, ListItemIcon, makeStyles, Theme } from "@material-ui/core";
-import CallIcon from "@material-ui/icons/Call";
-import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
-import ChatIcon from "@material-ui/icons/Chat";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import SettingsIcon from "@material-ui/icons/Settings";
+import { Call, PeopleAlt, Chat, Notifications, Settings } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -77,13 +73,13 @@ export const AppBarMenu: React.FC = () => {
     return (
         <nav className={classes.root}>
             <List>
-                <ListItemLink to="/call-history" icon={<CallIcon />} />
-                <ListItemLink to="/contacts" icon={<PeopleAltIcon />} />
-                <ListItemLink to="/chat" icon={<ChatIcon />} />
-                <ListItemLink to="/notifications" icon={<NotificationsIcon />} />
+                <ListItemLink to="/call-history" icon={<Call />} />
+                <ListItemLink to="/contacts" icon={<PeopleAlt />} />
+                <ListItemLink to="/chat" icon={<Chat />} />
+                <ListItemLink to="/notifications" icon={<Notifications />} />
             </List>
             <List>
-                <ListItemLink to="/settings" icon={<SettingsIcon />} />
+                <ListItemLink to="/settings" icon={<Settings />} />
             </List>
         </nav>
     );

@@ -15,6 +15,21 @@ export default createMuiTheme({
             sizeLarge: {},
             sizeSmall: {},
             textPrimary: {}
+        },
+        MuiFilledInput: {
+            root: {
+                borderRadius: "30px",
+                borderTopLeftRadius: "30px",
+                borderTopRightRadius: "30px"
+            },
+            input: {
+                padding: "10.5px 20px"
+            },
+            underline: {
+                "&:before, &:after": {
+                    content: "unset"
+                }
+            }
         }
     },
     palette: {
@@ -25,7 +40,7 @@ export default createMuiTheme({
             main: "#f8f8f8"
         },
         text: {
-            primary: "#00c0cc",
+            primary: "#1b1b1b",
             secondary: "#b5c3c6"
         },
         background: {
