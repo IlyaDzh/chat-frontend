@@ -11,6 +11,15 @@ import {
     ExitToApp
 } from "@material-ui/icons";
 
+interface IListItemLinkProps {
+    to: string;
+    icon: React.ReactElement;
+}
+
+interface IAppBarMenu {
+    doLogout: () => void;
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         display: "flex",
@@ -43,11 +52,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-interface IListItemLinkProps {
-    to: string;
-    icon: React.ReactElement;
-}
-
 const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon }) => {
     const classes = useStyles();
     const location = useLocation();
@@ -74,7 +78,7 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon }) => {
     );
 };
 
-export const AppBarMenu: React.FC<any> = ({ doLogout }) => {
+export const AppBarMenu: React.FC<IAppBarMenu> = ({ doLogout }) => {
     const classes = useStyles();
 
     return (
