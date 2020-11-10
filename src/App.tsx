@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 
 import { AppBar, Backdrop } from "./components";
 import {
@@ -11,12 +11,7 @@ import {
     NotificationsPage,
     SettingsPage
 } from "./pages";
-import IStores from "./stores/interfaces";
-import { IUserStore } from "./stores/interfaces/IUserStore";
-
-interface IAppProps {
-    userStore?: IUserStore;
-}
+import { useStores } from "./stores/useStore";
 
 const HomeRoutes: React.FC = () => {
     return (
@@ -31,8 +26,9 @@ const HomeRoutes: React.FC = () => {
     );
 };
 
-export const _App: React.FC<IAppProps> = ({ userStore }) => {
-    const { currentUser, pending } = userStore!;
+export const App: React.FC = observer(() => {
+    const { userStore } = useStores();
+    const { currentUser, pending } = userStore;
 
     if (pending) {
         return <Backdrop />;
@@ -71,8 +67,4 @@ export const _App: React.FC<IAppProps> = ({ userStore }) => {
             />
         </Switch>
     );
-};
-
-const mapMoxToProps = (store: IStores) => ({ userStore: store.userStore });
-
-export const App = inject(mapMoxToProps)(observer(_App));
+});

@@ -1,5 +1,5 @@
 import React from "react";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { ClockLoader } from "react-spinners";
 import {
     Typography,
@@ -12,12 +12,7 @@ import {
 } from "@material-ui/core";
 import { PersonOutlineOutlined, LockOutlined } from "@material-ui/icons";
 
-import IStores from "../stores/interfaces";
-import { ILoginStore } from "../stores/interfaces/ILoginStore";
-
-interface IProps {
-    loginStore?: ILoginStore;
-}
+import { useStores } from "../stores/useStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
     auth: {
@@ -73,16 +68,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const _SignInPage: React.FC<IProps> = ({ loginStore }) => {
+export const SignInPage: React.FC = observer(() => {
     const classes = useStyles();
     const theme = useTheme();
+    const { loginStore } = useStores();
     const {
         loginForm,
         loginSubmissionError,
         pending,
         setLoginFormValue,
         doLogin
-    } = loginStore!;
+    } = loginStore;
 
     return (
         <div className={classes.auth}>
@@ -158,8 +154,4 @@ const _SignInPage: React.FC<IProps> = ({ loginStore }) => {
             </div>
         </div>
     );
-};
-
-const mapMoxToProps = (store: IStores) => ({ loginStore: store.loginStore });
-
-export const SignInPage = inject(mapMoxToProps)(observer(_SignInPage));
+});

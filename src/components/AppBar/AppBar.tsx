@@ -1,15 +1,10 @@
 import React from "react";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { makeStyles, Theme } from "@material-ui/core";
 
 import { Avatar } from "../Avatar";
 import { AppBarMenu } from "./AppBarMenu";
-import IStores from "../../stores/interfaces";
-import { IUserStore } from "../../stores/interfaces/IUserStore";
-
-interface IAppBarProps {
-    userStore?: IUserStore;
-}
+import { useStores } from "../../stores/useStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
     appBar: {
@@ -23,9 +18,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const _AppBar: React.FC<IAppBarProps> = ({ userStore }) => {
+export const AppBar: React.FC = observer(() => {
     const classes = useStyles();
-    const { currentUser, doLogout } = userStore!;
+    const { userStore } = useStores();
+    const { currentUser, doLogout } = userStore;
 
     return (
         <aside className={classes.appBar}>
@@ -41,8 +37,4 @@ const _AppBar: React.FC<IAppBarProps> = ({ userStore }) => {
             <AppBarMenu doLogout={doLogout} />
         </aside>
     );
-};
-
-const mapMoxToProps = (store: IStores) => ({ userStore: store.userStore });
-
-export const AppBar = inject(mapMoxToProps)(observer(_AppBar));
+});
