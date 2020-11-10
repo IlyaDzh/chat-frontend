@@ -15,7 +15,7 @@ import IStores from "./stores/interfaces";
 import { IUserStore } from "./stores/interfaces/IUserStore";
 
 interface IAppProps {
-    user?: IUserStore;
+    userStore?: IUserStore;
 }
 
 const HomeRoutes: React.FC = () => {
@@ -31,8 +31,8 @@ const HomeRoutes: React.FC = () => {
     );
 };
 
-export const _App: React.FC<IAppProps> = ({ user }) => {
-    const { currentUser, pending } = user!;
+export const _App: React.FC<IAppProps> = ({ userStore }) => {
+    const { currentUser, pending } = userStore!;
 
     if (pending) {
         return <Backdrop />;
@@ -73,6 +73,6 @@ export const _App: React.FC<IAppProps> = ({ user }) => {
     );
 };
 
-const mapMoxToProps = (store: IStores) => ({ user: store.user });
+const mapMoxToProps = (store: IStores) => ({ userStore: store.userStore });
 
 export const App = inject(mapMoxToProps)(observer(_App));

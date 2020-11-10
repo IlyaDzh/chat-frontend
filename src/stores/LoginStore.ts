@@ -8,7 +8,7 @@ import {
     TLoginFormFields,
     TSignInResponse
 } from "./interfaces/ILoginStore";
-import { IUserStore } from "./interfaces/IUserStore";
+import IStores from "./interfaces";
 
 const INITIAL_LOGIN_FORM: TLoginForm = {
     name: "",
@@ -25,10 +25,10 @@ export class LoginStore implements ILoginStore {
     @observable
     pending: boolean = false;
 
-    userStore: IUserStore;
+    rootStore: IStores;
 
-    constructor(userStore: IUserStore) {
-        this.userStore = userStore;
+    constructor(rootStore: IStores) {
+        this.rootStore = rootStore;
     }
 
     @action
@@ -44,7 +44,7 @@ export class LoginStore implements ILoginStore {
         UserApi.login(authData)
             .then(({ data }: AxiosResponse<TSignInResponse>) => {
                 localStorage.setItem("accessToken", data.token);
-                this.userStore.fetchUser();
+                this.rootStore.userStore.fetchUser();
                 this.resetLoginForm();
                 this.pending = false;
             })

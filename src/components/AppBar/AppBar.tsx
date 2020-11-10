@@ -8,7 +8,7 @@ import IStores from "../../stores/interfaces";
 import { IUserStore } from "../../stores/interfaces/IUserStore";
 
 interface IAppBarProps {
-    user?: IUserStore;
+    userStore?: IUserStore;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const _AppBar: React.FC<IAppBarProps> = ({ user }) => {
+const _AppBar: React.FC<IAppBarProps> = ({ userStore }) => {
     const classes = useStyles();
-    const { currentUser, doLogout } = user!;
+    const { currentUser, doLogout } = userStore!;
 
     return (
         <aside className={classes.appBar}>
@@ -43,6 +43,6 @@ const _AppBar: React.FC<IAppBarProps> = ({ user }) => {
     );
 };
 
-const mapMoxToProps = (store: IStores) => ({ user: store.user });
+const mapMoxToProps = (store: IStores) => ({ userStore: store.userStore });
 
 export const AppBar = inject(mapMoxToProps)(observer(_AppBar));

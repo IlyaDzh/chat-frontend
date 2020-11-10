@@ -16,7 +16,7 @@ import IStores from "../stores/interfaces";
 import { ILoginStore } from "../stores/interfaces/ILoginStore";
 
 interface IProps {
-    login?: ILoginStore;
+    loginStore?: ILoginStore;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const _SignInPage: React.FC<IProps> = ({ login }) => {
+const _SignInPage: React.FC<IProps> = ({ loginStore }) => {
     const classes = useStyles();
     const theme = useTheme();
     const {
@@ -82,7 +82,7 @@ const _SignInPage: React.FC<IProps> = ({ login }) => {
         pending,
         setLoginFormValue,
         doLogin
-    } = login!;
+    } = loginStore!;
 
     return (
         <div className={classes.auth}>
@@ -160,6 +160,6 @@ const _SignInPage: React.FC<IProps> = ({ login }) => {
     );
 };
 
-const mapMoxToProps = (store: IStores) => ({ login: store.login });
+const mapMoxToProps = (store: IStores) => ({ loginStore: store.loginStore });
 
 export const SignInPage = inject(mapMoxToProps)(observer(_SignInPage));

@@ -1,10 +1,10 @@
-import { IUserStore } from "./IUserStore";
+import IStores from "./";
 
 export interface ILoginStore {
     loginForm: TLoginForm;
     loginSubmissionError: string | undefined;
     pending: boolean;
-    userStore: IUserStore;
+    rootStore: IStores;
     doLogin: () => void;
     setLoginFormValue: (key: TLoginFormFields, value: string) => void;
     resetLoginForm: () => void;
