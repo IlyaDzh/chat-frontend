@@ -12,16 +12,18 @@ import { main } from "./styles/material";
 import "./styles/index.scss";
 
 ReactDOM.render(
-    <React.StrictMode>
-        <MobxProvider {...stores}>
-            <MuiThemeProvider theme={main}>
-                <Router>
-                    <App />
-                </Router>
-            </MuiThemeProvider>
-        </MobxProvider>
-    </React.StrictMode>,
+    <MobxProvider {...stores}>
+        <MuiThemeProvider theme={main}>
+            <Router>
+                <App />
+            </Router>
+        </MuiThemeProvider>
+    </MobxProvider>,
     document.getElementById("root")
 );
+
+if (localStorage.getItem("accessToken")) {
+    stores.user.fetchUser();
+}
 
 reportWebVitals();

@@ -1,5 +1,11 @@
 export interface IUserStore {
-    user: undefined | object;
+    currentUser: TUserResponse | undefined;
+    pending: boolean;
     fetchUser: () => void;
     doLogout: () => void;
 }
+
+export type TUserResponse = {
+    avatar: string;
+    name: string;
+};

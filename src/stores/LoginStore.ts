@@ -1,6 +1,13 @@
+import { AxiosError, AxiosResponse } from "axios";
 import { observable, action } from "mobx";
+
 import { UserApi } from "../api";
-import { ILoginStore, TLoginForm, TLoginFormFields } from "./interfaces/ILoginStore";
+import {
+    ILoginStore,
+    TLoginForm,
+    TLoginFormFields,
+    TSignInResponse
+} from "./interfaces/ILoginStore";
 import { IUserStore } from "./interfaces/IUserStore";
 
 const INITIAL_LOGIN_FORM: TLoginForm = {
@@ -13,19 +20,19 @@ export class LoginStore implements ILoginStore {
     loginForm = INITIAL_LOGIN_FORM;
 
     @observable
-    loginSubmissionError: any = undefined;
+    loginSubmissionError: string | undefined = undefined;
 
     @observable
-    pending = false;
+    pending: boolean = false;
 
-    userStore: IUserStore | undefined = undefined;
+    userStore: IUserStore;
 
     constructor(userStore: IUserStore) {
         this.userStore = userStore;
     }
 
     @action
-    doLogin = () => {
+    doLogin = (): void => {
         this.pending = true;
         this.loginSubmissionError = undefined;
 
@@ -35,25 +42,25 @@ export class LoginStore implements ILoginStore {
         };
 
         UserApi.login(authData)
-            .then(({ data }: any) => {
+            .then(({ data }: AxiosResponse<TSignInResponse>) => {
                 localStorage.setItem("accessToken", data.token);
-                // this.userStore.fetchUser();
+                this.userStore.fetchUser();
                 this.resetLoginForm();
                 this.pending = false;
             })
-            .catch((error: any) => {
-                this.loginSubmissionError = error;
+            .catch((error: AxiosError) => {
+                this.loginSubmissionError = error.response?.data.message;
                 this.pending = false;
             });
     };
 
     @action
-    setLoginFormValue = (key: TLoginFormFields, value: string) => {
+    setLoginFormValue = (key: TLoginFormFields, value: string): void => {
         this.loginForm[key] = value;
     };
 
     @action
-    resetLoginForm = () => {
+    resetLoginForm = (): void => {
         this.loginForm = INITIAL_LOGIN_FORM;
         this.loginSubmissionError = undefined;
     };

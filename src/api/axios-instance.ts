@@ -1,7 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 const _axiosInstance: AxiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL
+    baseURL: "http://aeef40913070.ngrok.io/"
+    // baseURL: process.env.REACT_APP_API_BASE_URL
 });
 
 _axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {

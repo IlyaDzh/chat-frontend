@@ -1,8 +1,15 @@
 import React from "react";
+import { inject, observer } from "mobx-react";
 import { makeStyles, Theme } from "@material-ui/core";
 
 import { Avatar } from "../Avatar";
 import { AppBarMenu } from "./AppBarMenu";
+import IStores from "../../stores/interfaces";
+import { IUserStore } from "../../stores/interfaces/IUserStore";
+
+interface IAppBarProps {
+    user?: IUserStore;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
     appBar: {
@@ -16,16 +23,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const AppBar: React.FC = () => {
+const _AppBar: React.FC<IAppBarProps> = ({ user }) => {
     const classes = useStyles();
+    const { currentUser, doLogout } = user!;
 
     return (
         <aside className={classes.appBar}>
             <div className={classes.appBarAvatar}>
-                <Avatar alt="Ilya D." src="none" size="large" isOnline />
+                <Avatar
+                    alt={currentUser?.name}
+                    src={currentUser?.avatar}
+                    size="large"
+                    isOnline
+                />
             </div>
 
-            <AppBarMenu />
+            <AppBarMenu doLogout={doLogout} />
         </aside>
     );
 };
+
+const mapMoxToProps = (store: IStores) => ({ user: store.user });
+
+export const AppBar = inject(mapMoxToProps)(observer(_AppBar));

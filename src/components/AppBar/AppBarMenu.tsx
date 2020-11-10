@@ -2,7 +2,14 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { List, ListItem, ListItemIcon, makeStyles, Theme } from "@material-ui/core";
-import { Call, PeopleAlt, Chat, Notifications, Settings } from "@material-ui/icons";
+import {
+    Call,
+    PeopleAlt,
+    Chat,
+    Notifications,
+    Settings,
+    ExitToApp
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -67,7 +74,7 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon }) => {
     );
 };
 
-export const AppBarMenu: React.FC = () => {
+export const AppBarMenu: React.FC<any> = ({ doLogout }) => {
     const classes = useStyles();
 
     return (
@@ -80,6 +87,11 @@ export const AppBarMenu: React.FC = () => {
             </List>
             <List>
                 <ListItemLink to="/settings" icon={<Settings />} />
+                <ListItem button onClick={doLogout}>
+                    <ListItemIcon className={clsx(classes.listItemIcon)}>
+                        <ExitToApp />
+                    </ListItemIcon>
+                </ListItem>
             </List>
         </nav>
     );

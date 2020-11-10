@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { inject, observer } from "mobx-react";
 
-import { AppBar } from "./components";
+import { AppBar, Backdrop } from "./components";
 import {
     SignInPage,
     CallHistoryPage,
@@ -10,6 +11,12 @@ import {
     NotificationsPage,
     SettingsPage
 } from "./pages";
+import IStores from "./stores/interfaces";
+import { IUserStore } from "./stores/interfaces/IUserStore";
+
+interface IAppProps {
+    user?: IUserStore;
+}
 
 const HomeRoutes: React.FC = () => {
     return (
@@ -24,8 +31,12 @@ const HomeRoutes: React.FC = () => {
     );
 };
 
-export const App: React.FC = () => {
-    const isAuthorized = false;
+export const _App: React.FC<IAppProps> = ({ user }) => {
+    const { currentUser, pending } = user!;
+
+    if (pending) {
+        return <Backdrop />;
+    }
 
     return (
         <Switch>
@@ -33,7 +44,7 @@ export const App: React.FC = () => {
                 exact
                 path="/sign-in"
                 render={() =>
-                    isAuthorized ? <Redirect to="/chat" /> : <SignInPage />
+                    currentUser ? <Redirect to="/chat" /> : <SignInPage />
                 }
             />
             <Route
@@ -46,12 +57,12 @@ export const App: React.FC = () => {
                     "/settings"
                 ]}
                 render={() =>
-                    isAuthorized ? <HomeRoutes /> : <Redirect to="/sign-in" />
+                    currentUser ? <HomeRoutes /> : <Redirect to="/sign-in" />
                 }
             />
             <Route
                 render={() =>
-                    isAuthorized ? (
+                    currentUser ? (
                         <Redirect to="/chat" />
                     ) : (
                         <Redirect to="/sign-in" />
@@ -61,3 +72,7 @@ export const App: React.FC = () => {
         </Switch>
     );
 };
+
+const mapMoxToProps = (store: IStores) => ({ user: store.user });
+
+export const App = inject(mapMoxToProps)(observer(_App));
