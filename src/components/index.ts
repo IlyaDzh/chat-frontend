@@ -1,4 +1,3 @@
 export * from "./AppBar";
-export * from "./Chats";
-export * from "./Messages";
+export * from "./Chat";
 export * from "./Backdrop";

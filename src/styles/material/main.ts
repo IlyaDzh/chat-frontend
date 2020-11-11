@@ -69,7 +69,15 @@ export default createMuiTheme({
             fontSize: "18px"
         },
         h6: {
+            fontSize: "15px",
+            fontWeight: "bold"
+        },
+        body2: {
             fontSize: "14px",
+            fontWeight: 500
+        },
+        caption: {
+            fontSize: "12px",
             fontWeight: "bold"
         },
         fontFamily: "Open Sans, sans-serif"

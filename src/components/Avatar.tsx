@@ -7,7 +7,7 @@ import {
     AvatarProps
 } from "@material-ui/core";
 
-interface IAvatarProps extends AvatarProps {
+interface ICustomAvatarProps extends AvatarProps {
     isOnline?: boolean;
     size?: "small" | "large";
 }
@@ -52,7 +52,11 @@ const StyledBadge = withStyles(() => ({
     }
 }))(Badge);
 
-export const Avatar: React.FC<IAvatarProps> = ({ isOnline, size, ...props }) => {
+export const Avatar: React.FC<ICustomAvatarProps & AvatarProps> = ({
+    isOnline,
+    size,
+    ...props
+}) => {
     const classes = useStyles();
 
     return (
