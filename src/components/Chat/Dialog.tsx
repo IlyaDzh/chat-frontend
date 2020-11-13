@@ -4,18 +4,11 @@ import clsx from "clsx";
 import { Typography, Badge, makeStyles, Theme } from "@material-ui/core";
 
 import { Avatar } from "../Avatar";
+import { TDialogsType, TDialog } from "../../stores/interfaces/IDialogStore";
 
 interface IDialog {
-    dialog: {
-        id: string;
-        username: string;
-        fullname: string;
-        avatar: string;
-        lastMessage: string;
-        date: string;
-        isOnline: boolean;
-        unreadCount: number;
-    };
+    dialog: TDialog;
+    type: TDialogsType;
     isSelected: boolean;
 }
 
@@ -89,12 +82,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const Dialog: React.FC<IDialog> = ({ dialog, isSelected }) => {
+export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
     const classes = useStyles(isSelected);
 
     return (
         <Link
-            to={`/chat?p=${dialog.username}`}
+            to={`/chat/${type}?p=${dialog.id}`}
             className={clsx(classes.dialog, isSelected && classes.dialogSelected)}
         >
             <Badge
@@ -102,7 +95,7 @@ export const Dialog: React.FC<IDialog> = ({ dialog, isSelected }) => {
                     root: classes.dialogBadge,
                     badge: classes.dialogBadgeCircle
                 }}
-                badgeContent={dialog.unreadCount}
+                badgeContent={0}
                 max={9}
                 color="primary"
                 anchorOrigin={{
@@ -112,23 +105,22 @@ export const Dialog: React.FC<IDialog> = ({ dialog, isSelected }) => {
             >
                 <div className={classes.dialogAvatar}>
                     <Avatar
-                        alt={dialog.fullname}
-                        src={dialog.avatar}
-                        isOnline={dialog.isOnline}
+                        alt={dialog.user?.name}
+                        src={dialog.user?.avatar}
+                        isOnline={false}
                     />
                 </div>
                 <div className={classes.dialogContent}>
                     <div className={classes.dialogHeader}>
                         <Typography className={classes.dialogName} variant="h6">
-                            {dialog.fullname}
+                            {dialog.name}
                         </Typography>
                         <Typography className={classes.dialogDate} variant="caption">
-                            {dialog.date}
+                            {dialog.messages[0]?.date}
                         </Typography>
                     </div>
-
                     <Typography className={classes.dialogMessage} variant="body2">
-                        {dialog.lastMessage}
+                        {dialog.messages[0]?.text || "Нет сообщений"}
                     </Typography>
                 </div>
             </Badge>

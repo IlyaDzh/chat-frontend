@@ -16,27 +16,20 @@ export class UserStore implements IUserStore {
     fetchUser = () => {
         this.pending = true;
 
-        this.currentUser = {
-            name: "Ilya",
-            avatar: "none"
-        }
-
-        this.pending = false;
-
-        // UserApi.getUser()
-        //     .then(
-        //         action(({ data }: AxiosResponse<TUserResponse>) => {
-        //             this.currentUser = data;
-        //         })
-        //     )
-        //     .catch(() => {
-        //         localStorage.removeItem("accessToken");
-        //     })
-        //     .finally(
-        //         action(() => {
-        //             this.pending = false;
-        //         })
-        //     );
+        UserApi.getUser()
+            .then(
+                action(({ data }: AxiosResponse<TUserResponse>) => {
+                    this.currentUser = data;
+                })
+            )
+            .catch(() => {
+                localStorage.removeItem("accessToken");
+            })
+            .finally(
+                action(() => {
+                    this.pending = false;
+                })
+            );
     };
 
     doLogout = () => {

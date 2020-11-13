@@ -13,6 +13,7 @@ import {
 
 interface IListItemLinkProps {
     to: string;
+    paths?: string[];
     icon: React.ReactElement;
 }
 
@@ -52,11 +53,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon }) => {
+const ListItemLink: React.FC<IListItemLinkProps> = ({ to, paths, icon }) => {
     const classes = useStyles();
     const location = useLocation();
 
-    const isSelected = location.pathname === to;
+    const isSelected: boolean = paths
+        ? paths.includes(location.pathname)
+        : location.pathname === to;
 
     return (
         <ListItem
@@ -86,7 +89,11 @@ export const AppBarMenu: React.FC<IAppBarMenu> = ({ doLogout }) => {
             <List>
                 <ListItemLink to="/call-history" icon={<Call />} />
                 <ListItemLink to="/contacts" icon={<PeopleAlt />} />
-                <ListItemLink to="/chat" icon={<Chat />} />
+                <ListItemLink
+                    to="/chat/direct"
+                    paths={["/chat/direct", "/chat/groups"]}
+                    icon={<Chat />}
+                />
                 <ListItemLink to="/notifications" icon={<Notifications />} />
             </List>
             <List>

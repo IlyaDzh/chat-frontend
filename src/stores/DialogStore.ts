@@ -1,45 +1,70 @@
-import { makeAutoObservable } from "mobx";
+import { AxiosResponse } from "axios";
+import { action, makeAutoObservable } from "mobx";
 
+import { ChatApi } from "../api";
 import { MAX_MESSAGE_COUNT } from "../utils/constants";
-import { IDialogStore, TDialog, TMessage } from "./interfaces/IDialogStore";
+import {
+    IDialogStore,
+    TDialogs,
+    TDialogsType,
+    TPendingDialogs,
+    TDialog,
+    TMessage
+} from "./interfaces/IDialogStore";
 
 export class DialogStore implements IDialogStore {
-    currentDialog: TDialog | undefined = undefined;
+    dialogs: TDialogs = {
+        direct: undefined,
+        groups: undefined
+    };
 
-    messages: TMessage[] | undefined = undefined;
+    // currentDialog: TDialog | undefined = undefined;
+
+    currentTab: TDialogsType = "direct";
+
+    // messages: TMessage[] = [];
 
     messageText: string = "";
 
-    pending: boolean = false;
+    pending: TPendingDialogs = {
+        direct: false,
+        groups: false
+    };
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    fetchMessages = () => {
-        this.pending = true;
+    fetchDialogs = () => {
+        if (
+            (this.currentTab === "direct" && this.dialogs.direct) ||
+            (this.currentTab === "groups" && this.dialogs.groups)
+        ) {
+            return;
+        }
 
-        setTimeout(() => {
-            this.messages?.push({
-                id: "2",
-                text: "Второе сообщение"
+        this.pending[this.currentTab] = true;
+
+        const type = this.currentTab === "direct" ? 0 : 1;
+
+        ChatApi.getDialogsByType(type)
+            .then(
+                action(({ data }: AxiosResponse<TDialog[]>) => {
+                    this.dialogs[this.currentTab] = data;
+                })
+            )
+            .catch(() => {})
+            .finally(() => {
+                this.pending[this.currentTab] = false;
             });
-        }, 1000);
-
-        this.pending = false;
     };
 
-    setCurrentDialog = () => {
-        this.currentDialog = {
-            user: {
-                name: "Taya",
-                avatar: "none"
-            },
-            lastMessage: {
-                id: "1",
-                text: "Первое сообщение"
-            }
-        };
+    // fetchMessages = () => {};
+
+    // setCurrentDialog = () => {};
+
+    setCurrentTab = (dialogsType: TDialogsType) => {
+        this.currentTab = dialogsType;
     };
 
     setMessageText = (text: string) => {

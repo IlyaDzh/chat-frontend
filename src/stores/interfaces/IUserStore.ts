@@ -6,6 +6,7 @@ export interface IUserStore {
 }
 
 export type TUserResponse = {
+    id: number;
     avatar: string;
     name: string;
 };

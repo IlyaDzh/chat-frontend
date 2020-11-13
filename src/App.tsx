@@ -19,7 +19,7 @@ const HomeRoutes: React.FC = () => {
             <AppBar />
             <Route exact path="/call-history" component={CallHistoryPage} />
             <Route exact path="/contacts" component={ContactsPage} />
-            <Route exact path="/chat" component={ChatPage} />
+            <Route exact path="/chat/:type" component={ChatPage} />
             <Route exact path="/notifications" component={NotificationsPage} />
             <Route exact path="/settings" component={SettingsPage} />
         </section>
@@ -40,7 +40,7 @@ export const App: React.FC = observer(() => {
                 exact
                 path="/sign-in"
                 render={() =>
-                    currentUser ? <Redirect to="/chat" /> : <SignInPage />
+                    currentUser ? <Redirect to="/chat/direct" /> : <SignInPage />
                 }
             />
             <Route
@@ -48,7 +48,7 @@ export const App: React.FC = observer(() => {
                 path={[
                     "/call-history",
                     "/contacts",
-                    "/chat",
+                    "/chat/:type",
                     "/notifications",
                     "/settings"
                 ]}
@@ -59,7 +59,7 @@ export const App: React.FC = observer(() => {
             <Route
                 render={() =>
                     currentUser ? (
-                        <Redirect to="/chat" />
+                        <Redirect to="/chat/direct" />
                     ) : (
                         <Redirect to="/sign-in" />
                     )

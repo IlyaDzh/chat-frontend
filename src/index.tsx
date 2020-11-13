@@ -23,8 +23,8 @@ ReactDOM.render(
     document.getElementById("root")
 );
 
-// if (localStorage.getItem("accessToken")) {
+if (localStorage.getItem("accessToken")) {
     rootStore.userStore.fetchUser();
-// }
+}
 
 reportWebVitals();

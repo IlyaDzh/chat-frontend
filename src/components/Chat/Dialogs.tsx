@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Route, Switch, useParams } from "react-router-dom";
 import { Typography, Button, makeStyles, Theme } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
 import { DialogsTabs } from "./DialogsTabs";
 import { DialogsSearch } from "./DialogsSearch";
 import { DialogsList } from "./DialogsList";
+import { useStores } from "../../stores/useStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
     dialogs: {
@@ -28,6 +30,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const Dialogs: React.FC = () => {
     const classes = useStyles();
+    const { type } = useParams<{ type: "direct" | "groups" }>();
+    const { dialogStore } = useStores();
+    const { setCurrentTab, fetchDialogs } = dialogStore;
+
+    useEffect(() => {
+        if (type) {
+            setCurrentTab(type);
+            fetchDialogs();
+        }
+    }, [type, setCurrentTab, fetchDialogs]);
 
     return (
         <div className={classes.dialogs}>
@@ -44,7 +56,19 @@ export const Dialogs: React.FC = () => {
             </div>
             <DialogsTabs />
             <DialogsSearch />
-            <DialogsList />
+
+            <Switch>
+                <Route
+                    exact
+                    path="/chat/direct"
+                    render={() => <DialogsList type="direct" />}
+                />
+                <Route
+                    exact
+                    path="/chat/groups"
+                    render={() => <DialogsList type="groups" />}
+                />
+            </Switch>
         </div>
     );
 };
