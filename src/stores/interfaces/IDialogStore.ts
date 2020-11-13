@@ -30,7 +30,7 @@ export type TDialogs = {
 export type TDialog = {
     id: number;
     messages: TMessage[];
-    type: TDialogsType;
+    type: 0 | 1;
     user?: TUserResponse;
     users?: TUserResponse[];
     avatar?: string;

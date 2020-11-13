@@ -54,9 +54,11 @@ export class DialogStore implements IDialogStore {
                 })
             )
             .catch(() => {})
-            .finally(() => {
-                this.pending[this.currentTab] = false;
-            });
+            .finally(
+                action(() => {
+                    this.pending[this.currentTab] = false;
+                })
+            );
     };
 
     // fetchMessages = () => {};

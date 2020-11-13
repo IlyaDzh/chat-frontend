@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Typography, Badge, makeStyles, Theme } from "@material-ui/core";
 
 import { Avatar } from "../Avatar";
-import { TDialogsType, TDialog } from "../../stores/interfaces/IDialogStore";
+import { TDialog, TDialogsType } from "../../stores/interfaces/IDialogStore";
 
 interface IDialog {
     dialog: TDialog;
@@ -106,7 +106,7 @@ export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
                 <div className={classes.dialogAvatar}>
                     <Avatar
                         alt={dialog.user?.name}
-                        src={dialog.user?.avatar}
+                        src={dialog.type === 0 ? dialog.user?.avatar : dialog.avatar}
                         isOnline={false}
                     />
                 </div>
