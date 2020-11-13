@@ -1,11 +1,14 @@
 import { makeAutoObservable } from "mobx";
 
+import { MAX_MESSAGE_COUNT } from "../utils/constants";
 import { IDialogStore, TDialog, TMessage } from "./interfaces/IDialogStore";
 
 export class DialogStore implements IDialogStore {
     currentDialog: TDialog | undefined = undefined;
 
     messages: TMessage[] | undefined = undefined;
+
+    messageText: string = "";
 
     pending: boolean = false;
 
@@ -37,5 +40,15 @@ export class DialogStore implements IDialogStore {
                 text: "Первое сообщение"
             }
         };
+    };
+
+    setMessageText = (text: string) => {
+        if (text.length <= MAX_MESSAGE_COUNT) {
+            this.messageText = text;
+        }
+    };
+
+    sendMessage = () => {
+        this.messageText = "";
     };
 }

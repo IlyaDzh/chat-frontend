@@ -1,31 +1,30 @@
 import React from "react";
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
-import { Avatar } from "../Avatar";
+import { MessagesHeader } from "./MessagesHeader";
+import { MessagesInput } from "./MessagesInput";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
     messages: {
-        width: "100%"
-    },
-    messagesHeader: {
-        padding: "25px"
+        width: "100%",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between"
     },
     messagesList: {
-
-    },
-    messagesBottom: {
-        padding: "25px"
+        height: "100%"
     }
 }));
 
 export const Messages: React.FC = () => {
     const classes = useStyles();
 
-    return <div className={classes.messages}>
-        <div className={classes.messagesHeader}>
-            <Avatar alt="Taya" src="none" />
+    return (
+        <div className={classes.messages}>
+            <MessagesHeader />
+            <div className={classes.messagesList}>messages list</div>
+            <MessagesInput />
         </div>
-        <div className={classes.messagesList}>messages list</div>
-        <div className={classes.messagesBottom}>input</div>
-    </div>;
+    );
 };

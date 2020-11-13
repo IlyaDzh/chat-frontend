@@ -30,6 +30,13 @@ export default createMuiTheme({
                     content: "unset"
                 }
             }
+        },
+        MuiInputAdornment: {
+            filled: {
+                "&.MuiInputAdornment-positionStart:not(.MuiInputAdornment-hiddenLabel)": {
+                    marginTop: 0
+                }
+            }
         }
     },
     palette: {

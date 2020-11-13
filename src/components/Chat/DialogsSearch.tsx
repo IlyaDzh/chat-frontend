@@ -1,11 +1,23 @@
 import React from "react";
-import { TextField, makeStyles } from "@material-ui/core";
+import { TextField, InputAdornment, makeStyles, Theme } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
     dialogsSearch: {
         marginBottom: "20px"
     },
-    dialogsSearchInput: {}
+    dialogsSearchInput: {
+        fontSize: "14px",
+        fontWeight: 500,
+        background: "#fff",
+        boxShadow: "0px 1px 6px 2px rgba(0, 0, 0, 0.08)",
+        "&:hover, &.Mui-focused": {
+            background: "#fff"
+        }
+    },
+    searchSvg: {
+        color: theme.palette.text.secondary
+    }
 }));
 
 export const DialogsSearch: React.FC = () => {
@@ -14,9 +26,16 @@ export const DialogsSearch: React.FC = () => {
     return (
         <div className={classes.dialogsSearch}>
             <TextField
-                className={classes.dialogsSearchInput}
                 variant="filled"
                 placeholder="Поиск"
+                InputProps={{
+                    classes: { root: classes.dialogsSearchInput },
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Search classes={{ root: classes.searchSvg }} />
+                        </InputAdornment>
+                    )
+                }}
                 fullWidth
             />
         </div>
