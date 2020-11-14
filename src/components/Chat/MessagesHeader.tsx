@@ -48,7 +48,6 @@ export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => 
                     alt={currentDialog.name}
                     src={currentDialog.avatar}
                     size="large"
-                    isOnline
                 />
                 <div className={classes.messagesUserInfo}>
                     <Typography variant="h6">{currentDialog.name}</Typography>

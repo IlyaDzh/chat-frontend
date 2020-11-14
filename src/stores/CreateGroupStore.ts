@@ -51,7 +51,8 @@ export class CreateGroupStore implements ICreateGroupStore {
                         name: data.name,
                         avatar: data.avatar,
                         type: data.type,
-                        messages: data.messages
+                        messages: data.messages,
+                        users: data.users
                     });
                     this.pending = false;
                     this.createModalIsOpen = false;
