@@ -1,5 +1,5 @@
 import React from "react";
 
 export const ContactsPage: React.FC = () => {
-    return <div>ContactsPage</div>;
+    return <div className="content">ContactsPage</div>;
 };

@@ -2,14 +2,11 @@ import { AxiosResponse } from "axios";
 import { action, makeAutoObservable } from "mobx";
 
 import { ChatApi } from "../api";
-import { MAX_MESSAGE_COUNT } from "../utils/constants";
 import {
     IDialogStore,
     TDialogs,
     TDialogsType,
-    TPendingDialogs,
-    TDialog,
-    TMessage
+    TDialog
 } from "./interfaces/IDialogStore";
 
 export class DialogStore implements IDialogStore {
@@ -18,18 +15,11 @@ export class DialogStore implements IDialogStore {
         groups: undefined
     };
 
-    // currentDialog: TDialog | undefined = undefined;
+    currentDialog: TDialog | undefined = undefined;
 
     currentTab: TDialogsType = "direct";
 
-    // messages: TMessage[] = [];
-
-    messageText: string = "";
-
-    pending: TPendingDialogs = {
-        direct: false,
-        groups: false
-    };
+    pending: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -43,7 +33,7 @@ export class DialogStore implements IDialogStore {
             return;
         }
 
-        this.pending[this.currentTab] = true;
+        this.pending = true;
 
         const type = this.currentTab === "direct" ? 0 : 1;
 
@@ -56,26 +46,18 @@ export class DialogStore implements IDialogStore {
             .catch(() => {})
             .finally(
                 action(() => {
-                    this.pending[this.currentTab] = false;
+                    this.pending = false;
                 })
             );
     };
 
-    // fetchMessages = () => {};
-
-    // setCurrentDialog = () => {};
+    setCurrentDialogById = (id: string) => {
+        this.currentDialog = this.dialogs[this.currentTab]?.filter(
+            dialog => dialog.id === Number(id)
+        )[0];
+    };
 
     setCurrentTab = (dialogsType: TDialogsType) => {
         this.currentTab = dialogsType;
-    };
-
-    setMessageText = (text: string) => {
-        if (text.length <= MAX_MESSAGE_COUNT) {
-            this.messageText = text;
-        }
-    };
-
-    sendMessage = () => {
-        this.messageText = "";
     };
 }

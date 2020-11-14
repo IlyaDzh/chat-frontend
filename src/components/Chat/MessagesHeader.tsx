@@ -1,8 +1,13 @@
 import React from "react";
 import { Typography, IconButton, makeStyles, Theme } from "@material-ui/core";
-import { MoreHoriz, Videocam } from "@material-ui/icons";
+import { Add, MoreHoriz, Videocam } from "@material-ui/icons";
 
 import { Avatar } from "../Avatar";
+import { TDialog } from "../../stores/interfaces/IDialogStore";
+
+interface IMessagesHeader {
+    currentDialog: TDialog;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
     messagesHeader: {
@@ -33,21 +38,35 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const MessagesHeader: React.FC = () => {
+export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => {
     const classes = useStyles();
 
     return (
         <div className={classes.messagesHeader}>
             <div className={classes.messagesHeaderLeft}>
-                <Avatar alt="Taya" src="none" size="large" isOnline />
+                <Avatar
+                    alt={currentDialog.name}
+                    src={currentDialog.avatar}
+                    size="large"
+                    isOnline
+                />
                 <div className={classes.messagesUserInfo}>
-                    <Typography variant="h6">Taya</Typography>
+                    <Typography variant="h6">{currentDialog.name}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                        В сети 2 часа назад
+                        {currentDialog.type === 0
+                            ? "Был(а) 2 часа назад"
+                            : currentDialog.users?.length === 1
+                            ? "1 участник"
+                            : `${currentDialog.users?.length} участников`}
                     </Typography>
                 </div>
             </div>
             <div className={classes.messagesHeaderRight}>
+                {currentDialog.type === 1 && (
+                    <IconButton className={classes.iconButton}>
+                        <Add classes={{ root: classes.iconButtonSvg }} />
+                    </IconButton>
+                )}
                 <IconButton className={classes.iconButton}>
                     <Videocam classes={{ root: classes.iconButtonSvg }} />
                 </IconButton>

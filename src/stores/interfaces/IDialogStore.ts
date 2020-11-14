@@ -1,26 +1,17 @@
 import { TUserResponse } from "./IUserStore";
+import { TMessage } from "./IMessageStore";
 
 export interface IDialogStore {
     dialogs: TDialogs;
-    // currentDialog: TDialog | undefined;
+    currentDialog: TDialog | undefined;
     currentTab: TDialogsType;
-    // messages: TMessage[];
-    messageText: string;
-    pending: TPendingDialogs;
+    pending: boolean;
     fetchDialogs: () => void;
-    // fetchMessages: () => void;
-    // setCurrentDialog: () => void;
     setCurrentTab: (dialogsType: TDialogsType) => void;
-    setMessageText: (text: string) => void;
-    sendMessage: () => void;
+    setCurrentDialogById: (id: string) => void;
 }
 
 export type TDialogsType = "direct" | "groups";
-
-export type TPendingDialogs = {
-    direct: boolean;
-    groups: boolean;
-};
 
 export type TDialogs = {
     direct: TDialog[] | undefined;
@@ -37,9 +28,7 @@ export type TDialog = {
     name?: string;
 };
 
-export type TMessage = {
-    id: string;
-    user: TUserResponse;
-    text: string;
-    date: string;
+export type TCreateGroupData = {
+    name: string;
+    avatar?: any;
 };

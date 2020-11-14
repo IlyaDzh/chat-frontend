@@ -22,3 +22,22 @@ body {
     display: flex;
     height: 100vh;
 }
+
+.content {
+    display: flex;
+    width: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+
+    &-track {
+        background-color: #e7e7e7;
+        border-radius: 3px;
+    }
+
+    &-thumb {
+        background-color: #c0c0c0;
+        border-radius: 3px;
+    }
+}

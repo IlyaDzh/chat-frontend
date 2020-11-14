@@ -22,7 +22,7 @@ export class LoginStore implements ILoginStore {
 
     pending: boolean = false;
 
-    rootStore: IStores;
+    private rootStore: IStores;
 
     constructor(rootStore: IStores) {
         this.rootStore = rootStore;

@@ -10,3 +10,7 @@ export type TUserResponse = {
     avatar: string;
     name: string;
 };
+
+export type TSearchUserData = {
+    search_query: string;
+};

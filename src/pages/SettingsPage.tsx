@@ -1,5 +1,5 @@
 import React from "react";
 
 export const SettingsPage: React.FC = () => {
-    return <div>SettingsPage</div>;
+    return <div className="content">SettingsPage</div>;
 };

@@ -80,6 +80,14 @@ export const SignInPage: React.FC = observer(() => {
         doLogin
     } = loginStore;
 
+    const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            event.stopPropagation();
+            doLogin();
+        }
+    };
+
     return (
         <div className={classes.auth}>
             <div className={classes.authForm}>
@@ -97,6 +105,7 @@ export const SignInPage: React.FC = observer(() => {
                         onChange={event =>
                             setLoginFormValue("name", event.target.value)
                         }
+                        onKeyDown={onKeyDown}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -115,6 +124,7 @@ export const SignInPage: React.FC = observer(() => {
                         onChange={event =>
                             setLoginFormValue("password", event.target.value)
                         }
+                        onKeyDown={onKeyDown}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">

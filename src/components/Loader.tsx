@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 
 interface ILoader {
     size: number;
-    isCenter: boolean;
+    isCenter?: boolean;
 }
 
 export const Loader: React.FC<ILoader> = ({ size = 50, isCenter }) => {

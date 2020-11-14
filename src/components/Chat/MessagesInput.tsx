@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const MessagesInput: React.FC = observer(() => {
     const classes = useStyles();
-    const { dialogStore } = useStores();
-    const { messageText, setMessageText, sendMessage } = dialogStore;
+    const { messageStore } = useStores();
+    const { messageText, setMessageText, sendMessage } = messageStore;
 
     return (
         <div className={classes.messagesBottom}>

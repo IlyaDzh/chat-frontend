@@ -4,4 +4,8 @@ export class ChatApi {
     static getDialogsByType(type: 0 | 1) {
         return axiosInstance.get(`api/chat/type=${type}`);
     }
+
+    static createGroup(postData: FormData) {
+        return axiosInstance.post("api/chat/create/group", postData);
+    }
 }

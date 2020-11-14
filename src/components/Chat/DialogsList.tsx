@@ -11,11 +11,16 @@ import { TDialogsType } from "../../stores/interfaces/IDialogStore";
 const useStyles = makeStyles(() => ({
     dialogsList: {
         height: "calc(100vh - 197px)",
-        overflowY: "auto"
+        overflowY: "auto",
+        paddingRight: "7px"
     }
 }));
 
-export const DialogsList: React.FC<{ type: TDialogsType }> = observer(({ type }) => {
+interface IDialogsList {
+    type: TDialogsType;
+}
+
+export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
     const classes = useStyles();
     const query = new URLSearchParams(useLocation().search);
     const { dialogStore } = useStores();
@@ -23,7 +28,7 @@ export const DialogsList: React.FC<{ type: TDialogsType }> = observer(({ type })
 
     return (
         <div className={classes.dialogsList}>
-            {pending[type] ? (
+            {pending ? (
                 <Loader size={30} isCenter />
             ) : dialogs[type]?.length ? (
                 dialogs[type]?.map(dialog => (
