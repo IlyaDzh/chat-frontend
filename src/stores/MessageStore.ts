@@ -12,8 +12,6 @@ export class MessageStore implements IMessageStore {
         makeAutoObservable(this);
     }
 
-    fetchMessages = () => {};
-
     setMessageText = (text: string) => {
         if (text.length <= MAX_MESSAGE_COUNT) {
             this.messageText = text;

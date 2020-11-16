@@ -105,7 +105,7 @@ export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
             >
                 <div className={classes.dialogAvatar}>
                     <Avatar
-                        alt={dialog.user?.name}
+                        alt={dialog.user?.name || dialog.name}
                         src={dialog.type === 0 ? dialog.user?.avatar : dialog.avatar}
                         isOnline={false}
                     />

@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
 import { MessagesHeader } from "./MessagesHeader";
+import { MessagesList } from "./MessagesList";
 import { MessagesInput } from "./MessagesInput";
 import { useStores } from "../../stores/useStore";
 
@@ -14,9 +15,6 @@ const useStyles = makeStyles(() => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between"
-    },
-    messagesList: {
-        height: "100%"
     }
 }));
 
@@ -36,7 +34,7 @@ export const Messages: React.FC = observer(() => {
     return currentDialog ? (
         <div className={classes.messages}>
             <MessagesHeader currentDialog={currentDialog} />
-            <div className={classes.messagesList}>messages list</div>
+            <MessagesList />
             <MessagesInput />
         </div>
     ) : (

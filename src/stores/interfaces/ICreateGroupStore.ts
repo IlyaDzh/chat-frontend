@@ -1,3 +1,5 @@
+import { TDialog } from "./IDialogStore";
+
 export interface ICreateGroupStore {
     createGroupForm: TCreateGroupForm;
     createModalIsOpen: boolean;
@@ -13,4 +15,9 @@ export interface ICreateGroupStore {
 export type TCreateGroupForm = {
     name: string;
     avatar: File | null;
+};
+
+export type TCreateGroupResponse = {
+    chat: TDialog;
+    message: string;
 };

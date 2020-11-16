@@ -84,8 +84,8 @@ export default createMuiTheme({
             fontWeight: 500
         },
         caption: {
-            fontSize: "12px",
-            fontWeight: "bold"
+            fontSize: "11px",
+            fontWeight: 500
         },
         fontFamily: "Open Sans, sans-serif"
     }

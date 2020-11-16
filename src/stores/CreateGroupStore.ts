@@ -1,8 +1,13 @@
+import { AxiosResponse } from "axios";
 import { observable, action, makeObservable } from "mobx";
 
 import { ChatApi } from "../api";
 import IStores from "./interfaces";
-import { ICreateGroupStore, TCreateGroupForm } from "./interfaces/ICreateGroupStore";
+import {
+    ICreateGroupStore,
+    TCreateGroupForm,
+    TCreateGroupResponse
+} from "./interfaces/ICreateGroupStore";
 
 const INITIAL_CREATE_GROUP_FORM: TCreateGroupForm = {
     name: "",
@@ -45,15 +50,8 @@ export class CreateGroupStore implements ICreateGroupStore {
 
         ChatApi.createGroup(formData)
             .then(
-                action(({ data }: any) => {
-                    this.rootStore.dialogStore.dialogs.groups?.unshift({
-                        id: data.id,
-                        name: data.name,
-                        avatar: data.avatar,
-                        type: data.type,
-                        messages: data.messages,
-                        users: data.users
-                    });
+                action(({ data }: AxiosResponse<TCreateGroupResponse>) => {
+                    this.rootStore.dialogStore.dialogs.groups?.unshift(data.chat);
                     this.pending = false;
                     this.createModalIsOpen = false;
                     this.resetCreateGroupForm();
