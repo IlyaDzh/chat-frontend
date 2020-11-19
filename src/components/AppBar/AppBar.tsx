@@ -28,7 +28,7 @@ export const AppBar: React.FC = observer(() => {
             <div className={classes.appBarAvatar}>
                 <Avatar
                     alt={currentUser?.name}
-                    src={currentUser?.avatar}
+                    src={currentUser?.avatar || "none"}
                     size="large"
                     isOnline
                 />

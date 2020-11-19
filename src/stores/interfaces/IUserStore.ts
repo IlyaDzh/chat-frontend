@@ -1,11 +1,11 @@
 export interface IUserStore {
-    currentUser: TUserResponse | undefined;
+    currentUser: TUser | undefined;
     pending: boolean;
     fetchUser: () => void;
     doLogout: () => void;
 }
 
-export type TUserResponse = {
+export type TUser = {
     id: number;
     avatar: string;
     name: string;

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "20px",
+        padding: "10px 15px",
         borderBottom: "2px solid rgba(0, 0, 0, 0.1)"
     },
     messagesHeaderLeft: {

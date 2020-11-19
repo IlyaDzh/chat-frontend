@@ -21,7 +21,7 @@ class RootStore implements IStores {
         this.userStore = new UserStore();
         this.loginStore = new LoginStore(this);
         this.dialogStore = new DialogStore();
-        this.messageStore = new MessageStore();
+        this.messageStore = new MessageStore(this);
         this.createGroupStore = new CreateGroupStore(this);
     }
 }

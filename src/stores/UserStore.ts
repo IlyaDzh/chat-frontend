@@ -2,10 +2,10 @@ import { AxiosResponse } from "axios";
 import { action, makeAutoObservable } from "mobx";
 
 import { UserApi } from "../api";
-import { IUserStore, TUserResponse } from "./interfaces/IUserStore";
+import { IUserStore, TUser } from "./interfaces/IUserStore";
 
 export class UserStore implements IUserStore {
-    currentUser: TUserResponse | undefined = undefined;
+    currentUser: TUser | undefined = undefined;
 
     pending: boolean = !!localStorage.getItem("accessToken");
 
@@ -18,7 +18,7 @@ export class UserStore implements IUserStore {
 
         UserApi.getUser()
             .then(
-                action(({ data }: AxiosResponse<TUserResponse>) => {
+                action(({ data }: AxiosResponse<TUser>) => {
                     this.currentUser = data;
                 })
             )

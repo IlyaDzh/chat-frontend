@@ -1,4 +1,4 @@
-import { TUserResponse } from "./IUserStore";
+import { TUser } from "./IUserStore";
 
 export interface IMessageStore {
     messageText: string;
@@ -9,7 +9,7 @@ export interface IMessageStore {
 
 export type TMessage = {
     id: number;
-    user: TUserResponse;
+    user: TUser;
     text: string;
-    date: string;
+    updated_at: string;
 };

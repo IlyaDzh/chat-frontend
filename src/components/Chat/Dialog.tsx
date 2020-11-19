@@ -5,6 +5,7 @@ import { Typography, Badge, makeStyles, Theme } from "@material-ui/core";
 
 import { Avatar } from "../Avatar";
 import { TDialog, TDialogsType } from "../../stores/interfaces/IDialogStore";
+import { formatDate } from "../../utils/formatDate";
 
 interface IDialog {
     dialog: TDialog;
@@ -116,7 +117,9 @@ export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
                             {dialog.name}
                         </Typography>
                         <Typography className={classes.dialogDate} variant="caption">
-                            {dialog.messages[0]?.date}
+                            {dialog.messages[0]
+                                ? formatDate(dialog.messages[0].updated_at)
+                                : ""}
                         </Typography>
                     </div>
                     <Typography className={classes.dialogMessage} variant="body2">

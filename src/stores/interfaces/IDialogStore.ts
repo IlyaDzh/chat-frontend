@@ -1,4 +1,4 @@
-import { TUserResponse } from "./IUserStore";
+import { TUser } from "./IUserStore";
 import { TMessage } from "./IMessageStore";
 
 export interface IDialogStore {
@@ -22,8 +22,8 @@ export type TDialog = {
     id: number;
     messages: TMessage[];
     type: 0 | 1;
-    user?: TUserResponse;
-    users?: TUserResponse[];
+    user?: TUser;
+    users?: TUser[];
     avatar?: string;
     name?: string;
 };
