@@ -17,15 +17,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     message: {
         position: "relative",
         maxWidth: "450px",
-        width: "100%",
         wordBreak: "break-word",
         padding: "6px 46px 6px 16px",
         marginTop: "6px",
+        marginRight: "auto",
         boxShadow: "1px 1px 4px 0px rgba(0, 0, 0, 0.1)",
         background: theme.palette.secondary.main
     },
     myMessage: {
         marginLeft: "auto",
+        marginRight: "unset",
         background: theme.palette.primary.main
     },
     marginBottom: {
