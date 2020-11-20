@@ -17,6 +17,8 @@ const INITIAL_CREATE_GROUP_FORM: TCreateGroupForm = {
 export class CreateGroupStore implements ICreateGroupStore {
     createGroupForm = INITIAL_CREATE_GROUP_FORM;
 
+    avatarObjectUrl: string = "";
+
     createModalIsOpen: boolean = false;
 
     pending: boolean = false;
@@ -75,6 +77,7 @@ export class CreateGroupStore implements ICreateGroupStore {
 
     setGroupAvatar = (avatar: File) => {
         this.createGroupForm.avatar = avatar;
+        this.avatarObjectUrl = URL.createObjectURL(avatar);
     };
 
     resetCreateGroupForm = () => {

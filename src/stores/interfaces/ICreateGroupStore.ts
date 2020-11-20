@@ -2,6 +2,7 @@ import { TDialog } from "./IDialogStore";
 
 export interface ICreateGroupStore {
     createGroupForm: TCreateGroupForm;
+    avatarObjectUrl: string;
     createModalIsOpen: boolean;
     pending: boolean;
     createCroupError: boolean;

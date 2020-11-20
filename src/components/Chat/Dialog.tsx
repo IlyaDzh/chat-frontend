@@ -106,10 +106,12 @@ export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
             >
                 <div className={classes.dialogAvatar}>
                     <Avatar
-                        alt={dialog.user?.name || dialog.name}
                         src={dialog.type === 0 ? dialog.user?.avatar : dialog.avatar}
+                        alt={dialog.user?.name || dialog.name}
                         isOnline={false}
-                    />
+                    >
+                        {dialog.user?.name[0] || (dialog.name && dialog.name[0])}
+                    </Avatar>
                 </div>
                 <div className={classes.dialogContent}>
                     <div className={classes.dialogHeader}>
@@ -117,13 +119,15 @@ export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
                             {dialog.name}
                         </Typography>
                         <Typography className={classes.dialogDate} variant="caption">
-                            {dialog.messages[0]
+                            {dialog.messages.length > 0
                                 ? formatDate(dialog.messages[0].updated_at)
                                 : ""}
                         </Typography>
                     </div>
                     <Typography className={classes.dialogMessage} variant="body2">
-                        {dialog.messages[0]?.text || "Нет сообщений"}
+                        {dialog.messages.length > 0
+                            ? dialog.messages[0]?.text
+                            : "Нет сообщений"}
                     </Typography>
                 </div>
             </Badge>

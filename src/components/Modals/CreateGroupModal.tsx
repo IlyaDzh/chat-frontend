@@ -65,6 +65,7 @@ export const CreateGroupModal: React.FC = observer(() => {
     const { createGroupStore } = useStores();
     const {
         createGroupForm,
+        avatarObjectUrl,
         createModalIsOpen,
         pending,
         createCroupError,
@@ -95,11 +96,7 @@ export const CreateGroupModal: React.FC = observer(() => {
                 <div className={classes.avatarAttachmentWrapper}>
                     <Avatar
                         className={classes.avatarAttachment}
-                        src={
-                            createGroupForm.avatar
-                                ? URL.createObjectURL(createGroupForm.avatar)
-                                : "none"
-                        }
+                        src={createGroupForm.avatar ? avatarObjectUrl : undefined}
                     />
                     <Button
                         component="label"

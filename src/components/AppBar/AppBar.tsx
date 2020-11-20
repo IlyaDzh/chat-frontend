@@ -27,11 +27,13 @@ export const AppBar: React.FC = observer(() => {
         <aside className={classes.appBar}>
             <div className={classes.appBarAvatar}>
                 <Avatar
+                    src={currentUser?.avatar}
                     alt={currentUser?.name}
-                    src={currentUser?.avatar || "none"}
                     size="large"
                     isOnline
-                />
+                >
+                    {currentUser?.name[0]}
+                </Avatar>
             </div>
 
             <AppBarMenu doLogout={doLogout} />

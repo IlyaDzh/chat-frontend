@@ -40,7 +40,7 @@ export const MessagesList: React.FC = observer(() => {
                         key={message.id}
                         message={message}
                         type={isMiddle ? "middle" : isStart ? "start" : "end"}
-                        currentUser={currentUser!}
+                        currentUser={currentUser}
                     />
                 );
             })}

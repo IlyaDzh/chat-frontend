@@ -10,7 +10,7 @@ import { TUser } from "../../stores/interfaces/IUserStore";
 interface IMessage {
     message: TMessage;
     type: "start" | "middle" | "end";
-    currentUser: TUser;
+    currentUser?: TUser;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const Message: React.FC<IMessage> = ({ message, type, currentUser }) => {
-    const isMyMessage: boolean = currentUser.id === message.user.id;
+    const isMyMessage: boolean = currentUser?.id === message.user.id;
 
     const classes = useStyles(isMyMessage);
 
@@ -98,10 +98,9 @@ export const Message: React.FC<IMessage> = ({ message, type, currentUser }) => {
             </Typography>
             {type === "end" && (
                 <div className={classes.avatar}>
-                    <Avatar
-                        src={message.user.avatar || "none"}
-                        alt={message.user.name}
-                    />
+                    <Avatar src={message.user.avatar} alt={message.user.name}>
+                        {message.user.name[0]}
+                    </Avatar>
                 </div>
             )}
         </div>

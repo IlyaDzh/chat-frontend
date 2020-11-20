@@ -45,10 +45,12 @@ export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => 
         <div className={classes.messagesHeader}>
             <div className={classes.messagesHeaderLeft}>
                 <Avatar
-                    alt={currentDialog.name}
                     src={currentDialog.avatar}
+                    alt={currentDialog.name}
                     size="large"
-                />
+                >
+                    {currentDialog.name && currentDialog.name[0]}
+                </Avatar>
                 <div className={classes.messagesUserInfo}>
                     <Typography variant="h6">{currentDialog.name}</Typography>
                     <Typography variant="body2" color="textSecondary">
