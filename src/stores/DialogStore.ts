@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { action, makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, reaction } from "mobx";
 
 import { ChatApi } from "../api";
 import {
@@ -26,8 +26,24 @@ export class DialogStore implements IDialogStore {
 
     hasMore: boolean = true;
 
+    searchText: string = "";
+
+    searchDialogs: TDialog[] = [];
+
     constructor() {
         makeAutoObservable(this);
+
+        reaction(
+            () => this.searchText,
+            searchText =>
+                (this.searchDialogs =
+                    this.dialogs[this.currentTab]?.filter(
+                        dialog =>
+                            dialog
+                                .name!.toLowerCase()
+                                .indexOf(searchText.toLowerCase()) === 0
+                    ) || [])
+        );
     }
 
     fetchDialogs = () => {
@@ -100,5 +116,9 @@ export class DialogStore implements IDialogStore {
 
     setCurrentTab = (dialogsType: TDialogsType) => {
         this.currentTab = dialogsType;
+    };
+
+    setSearchText = (searchText: string) => {
+        this.searchText = searchText;
     };
 }

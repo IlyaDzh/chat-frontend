@@ -8,10 +8,13 @@ export interface IDialogStore {
     pending: boolean;
     messagesPending: boolean;
     hasMore: boolean;
+    searchText: string;
+    searchDialogs: TDialog[];
     fetchDialogs: () => void;
     fetchMessages: () => void;
     setCurrentTab: (dialogsType: TDialogsType) => void;
     setCurrentDialogById: (id: string) => void;
+    setSearchText: (searchText: string) => void;
 }
 
 export type TDialogsType = "direct" | "groups";

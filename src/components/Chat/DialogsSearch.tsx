@@ -1,6 +1,9 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { TextField, InputAdornment, makeStyles, Theme } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
+
+import { useStores } from "../../stores/useStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
     dialogsSearch: {
@@ -20,14 +23,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const DialogsSearch: React.FC = () => {
+export const DialogsSearch: React.FC = observer(() => {
     const classes = useStyles();
+    const { dialogStore } = useStores();
+    const { searchText, setSearchText } = dialogStore;
 
     return (
         <div className={classes.dialogsSearch}>
             <TextField
                 variant="filled"
                 placeholder="Поиск"
+                value={searchText}
+                onChange={e => setSearchText(e.target.value)}
                 InputProps={{
                     classes: { root: classes.dialogsSearchInput },
                     startAdornment: (
@@ -40,4 +47,4 @@ export const DialogsSearch: React.FC = () => {
             />
         </div>
     );
-};
+});

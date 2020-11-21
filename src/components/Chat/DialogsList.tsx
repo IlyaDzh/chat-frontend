@@ -7,7 +7,7 @@ import { Dialog } from "./Dialog";
 import { DialogsEmpty } from "./DialogsEmpty";
 import { Loader } from "../Loader";
 import { useStores } from "../../stores/useStore";
-import { TDialogsType } from "../../stores/interfaces/IDialogStore";
+import { TDialog, TDialogsType } from "../../stores/interfaces/IDialogStore";
 
 const useStyles = makeStyles(() => ({
     dialogsList: {
@@ -25,21 +25,31 @@ export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
     const classes = useStyles();
     const query = new URLSearchParams(useLocation().search);
     const { dialogStore } = useStores();
-    const { dialogs, pending } = dialogStore;
+    const { dialogs, pending, searchText, searchDialogs } = dialogStore;
+
+    const renderList = (list: TDialog[] | undefined) => {
+        return list?.map(dialog => (
+            <Dialog
+                key={dialog.id}
+                dialog={dialog}
+                type={type}
+                isSelected={query.get("p") === dialog.id.toString()}
+            />
+        ));
+    };
 
     return (
         <div className={classes.dialogsList}>
             {pending ? (
                 <Loader size={30} isCenter />
+            ) : searchText ? (
+                searchDialogs.length ? (
+                    renderList(searchDialogs)
+                ) : (
+                    <div>Ничего не найдено</div>
+                )
             ) : dialogs[type]?.length ? (
-                dialogs[type]?.map(dialog => (
-                    <Dialog
-                        key={dialog.id}
-                        dialog={dialog}
-                        type={type}
-                        isSelected={query.get("p") === dialog.id.toString()}
-                    />
-                ))
+                renderList(dialogs[type])
             ) : (
                 <DialogsEmpty />
             )}
