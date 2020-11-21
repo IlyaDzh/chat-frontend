@@ -43,6 +43,7 @@ export const DialogsTabs: React.FC = observer(() => {
                     }}
                     variant="dot"
                     color="primary"
+                    invisible
                 >
                     <Typography
                         variant="h6"
@@ -67,6 +68,7 @@ export const DialogsTabs: React.FC = observer(() => {
                     }}
                     variant="dot"
                     color="primary"
+                    invisible
                 >
                     <Typography
                         variant="h6"

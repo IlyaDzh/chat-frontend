@@ -3,6 +3,7 @@ import { TMessage } from "./IMessageStore";
 
 export interface IDialogStore {
     dialogs: TDialogs;
+    loaded: TLoadedDialogs;
     currentDialog: TDialog | undefined;
     currentTab: TDialogsType;
     pending: boolean;
@@ -20,8 +21,13 @@ export interface IDialogStore {
 export type TDialogsType = "direct" | "groups";
 
 export type TDialogs = {
-    direct: TDialog[] | undefined;
-    groups: TDialog[] | undefined;
+    direct: TDialog[];
+    groups: TDialog[];
+};
+
+export type TLoadedDialogs = {
+    direct: boolean;
+    groups: boolean;
 };
 
 export type TDialog = {

@@ -53,7 +53,7 @@ export class CreateGroupStore implements ICreateGroupStore {
         ChatApi.createGroup(formData)
             .then(
                 action(({ data }: AxiosResponse<TCreateGroupResponse>) => {
-                    this.rootStore.dialogStore.dialogs.groups?.unshift(data.chat);
+                    this.rootStore.dialogStore.dialogs.groups.unshift(data.chat);
                     this.pending = false;
                     this.createModalIsOpen = false;
                     this.resetCreateGroupForm();

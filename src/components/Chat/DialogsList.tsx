@@ -27,7 +27,7 @@ export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
     const { dialogStore } = useStores();
     const { dialogs, pending, searchText, searchDialogs } = dialogStore;
 
-    const renderList = (list: TDialog[] | undefined) => {
+    const renderList = (list: TDialog[]) => {
         return list?.map(dialog => (
             <Dialog
                 key={dialog.id}
@@ -43,15 +43,15 @@ export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
             {pending ? (
                 <Loader size={30} isCenter />
             ) : searchText ? (
-                searchDialogs.length ? (
+                searchDialogs.length > 0 ? (
                     renderList(searchDialogs)
                 ) : (
-                    <div>Ничего не найдено</div>
+                    <DialogsEmpty text="Ничего не найдено" disableImage />
                 )
-            ) : dialogs[type]?.length ? (
+            ) : dialogs[type].length > 0 ? (
                 renderList(dialogs[type])
             ) : (
-                <DialogsEmpty />
+                <DialogsEmpty text="Чатов нет" />
             )}
         </div>
     );

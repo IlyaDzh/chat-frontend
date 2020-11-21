@@ -5,6 +5,7 @@ import { ChatApi } from "../api";
 import {
     IDialogStore,
     TDialogs,
+    TLoadedDialogs,
     TDialogsType,
     TDialog
 } from "./interfaces/IDialogStore";
@@ -12,8 +13,13 @@ import { TMessage } from "./interfaces/IMessageStore";
 
 export class DialogStore implements IDialogStore {
     dialogs: TDialogs = {
-        direct: undefined,
-        groups: undefined
+        direct: [],
+        groups: []
+    };
+
+    loaded: TLoadedDialogs = {
+        direct: false,
+        groups: false
     };
 
     currentDialog: TDialog | undefined = undefined;
@@ -37,19 +43,31 @@ export class DialogStore implements IDialogStore {
             () => this.searchText,
             searchText =>
                 (this.searchDialogs =
-                    this.dialogs[this.currentTab]?.filter(
+                    this.dialogs[this.currentTab].filter(
                         dialog =>
-                            dialog
-                                .name!.toLowerCase()
+                            dialog.name
+                                ?.toLowerCase()
                                 .indexOf(searchText.toLowerCase()) === 0
+                    ) || [])
+        );
+
+        reaction(
+            () => this.currentTab,
+            currentTab =>
+                (this.searchDialogs =
+                    this.dialogs[currentTab].filter(
+                        dialog =>
+                            dialog.name
+                                ?.toLowerCase()
+                                .indexOf(this.searchText.toLowerCase()) === 0
                     ) || [])
         );
     }
 
     fetchDialogs = () => {
         if (
-            (this.currentTab === "direct" && this.dialogs.direct) ||
-            (this.currentTab === "groups" && this.dialogs.groups)
+            (this.currentTab === "direct" && this.loaded.direct) ||
+            (this.currentTab === "groups" && this.loaded.groups)
         ) {
             return;
         }
@@ -64,6 +82,7 @@ export class DialogStore implements IDialogStore {
             .then(
                 action(({ data }: AxiosResponse<TDialog[]>) => {
                     this.dialogs[currentTab] = data;
+                    this.loaded[currentTab] = true;
                 })
             )
             .catch(() => {})
@@ -92,7 +111,7 @@ export class DialogStore implements IDialogStore {
                 action(({ data }: AxiosResponse<TMessage[]>) => {
                     if (data.length > 0) {
                         this.dialogs[currentTab]
-                            ?.filter(dialog => dialog.id === currentDialogId)[0]
+                            .filter(dialog => dialog.id === currentDialogId)[0]
                             .messages.push(...data);
                         this.hasMore = true;
                     } else {
@@ -109,7 +128,7 @@ export class DialogStore implements IDialogStore {
     };
 
     setCurrentDialogById = (id: string) => {
-        this.currentDialog = this.dialogs[this.currentTab]?.filter(
+        this.currentDialog = this.dialogs[this.currentTab].filter(
             dialog => dialog.id === Number(id)
         )[0];
     };
