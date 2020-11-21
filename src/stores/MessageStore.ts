@@ -29,15 +29,17 @@ export class MessageStore implements IMessageStore {
     };
 
     sendMessage = () => {
-        this.rootStore.dialogStore.currentDialog!.messages = [
-            {
-                id: Math.floor(Math.random() * 999999),
-                text: this.messageText,
-                updated_at: "2020-11-19T23:00:00.000000Z",
-                user: this.rootStore.userStore.currentUser!
-            },
-            ...this.rootStore.dialogStore.currentDialog!.messages
-        ];
-        this.messageText = "";
+        if (this.messageText) {
+            this.rootStore.dialogStore.currentDialog!.messages = [
+                {
+                    id: Math.floor(Math.random() * 999999),
+                    text: this.messageText,
+                    updated_at: "2020-11-19T23:00:00.000000Z",
+                    user: this.rootStore.userStore.currentUser!
+                },
+                ...this.rootStore.dialogStore.currentDialog!.messages
+            ];
+            this.messageText = "";
+        }
     };
 }

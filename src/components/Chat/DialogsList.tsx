@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
 import { Dialog } from "./Dialog";
+import { DialogsEmpty } from "./DialogsEmpty";
 import { Loader } from "../Loader";
 import { useStores } from "../../stores/useStore";
 import { TDialogsType } from "../../stores/interfaces/IDialogStore";
@@ -40,7 +41,7 @@ export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
                     />
                 ))
             ) : (
-                <div>Чатов нет</div>
+                <DialogsEmpty />
             )}
         </div>
     );

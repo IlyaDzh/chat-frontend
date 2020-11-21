@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
+import { MessagesEmpty } from "./MessagesEmpty";
 import { MessagesHeader } from "./MessagesHeader";
 import { MessagesList } from "./MessagesList";
 import { MessagesInput } from "./MessagesInput";
@@ -39,6 +40,6 @@ export const Messages: React.FC = observer(() => {
             <MessagesInput />
         </div>
     ) : (
-        <div>Выберите пользователя чтобы начать диалог</div>
+        <MessagesEmpty />
     );
 });

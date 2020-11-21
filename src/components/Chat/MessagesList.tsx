@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
         background: "#fff",
         borderRadius: "50%",
         border: "3px solid #fff",
-        boxShadow: "0px 0px 10px -3px #000",
+        boxShadow: "0px 0px 6px -3px #000",
         zIndex: 10
     }
 }));
