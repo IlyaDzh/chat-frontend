@@ -24,7 +24,7 @@ export class DialogStore implements IDialogStore {
 
     messagesPending: boolean = false;
 
-    hasMore:boolean = true;
+    hasMore: boolean = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -76,10 +76,10 @@ export class DialogStore implements IDialogStore {
                 action(({ data }: AxiosResponse<TMessage[]>) => {
                     if (data.length > 0) {
                         this.dialogs[currentTab]
-                        ?.filter(dialog => dialog.id === currentDialogId)[0]
-                        .messages.push(...data);
+                            ?.filter(dialog => dialog.id === currentDialogId)[0]
+                            .messages.push(...data);
                         this.hasMore = true;
-                    } else {    
+                    } else {
                         this.hasMore = false;
                     }
                 })

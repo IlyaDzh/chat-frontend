@@ -3,6 +3,7 @@ import { ILoginStore } from "./ILoginStore";
 import { IDialogStore } from "./IDialogStore";
 import { IMessageStore } from "./IMessageStore";
 import { ICreateGroupStore } from "./ICreateGroupStore";
+import { ISocketsStore } from "./ISocketsStore";
 
 export default interface IStores {
     userStore: IUserStore;
@@ -10,4 +11,5 @@ export default interface IStores {
     dialogStore: IDialogStore;
     messageStore: IMessageStore;
     createGroupStore: ICreateGroupStore;
+    socketsStore: ISocketsStore;
 }

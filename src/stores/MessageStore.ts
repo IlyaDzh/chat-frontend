@@ -1,7 +1,7 @@
 import { action, observable, makeObservable } from "mobx";
 
 import IStores from "./interfaces";
-import { IMessageStore } from "./interfaces/IMessageStore";
+import { IMessageStore, TMessage } from "./interfaces/IMessageStore";
 import { MAX_MESSAGE_COUNT } from "../utils/constants";
 
 export class MessageStore implements IMessageStore {
@@ -30,13 +30,14 @@ export class MessageStore implements IMessageStore {
 
     sendMessage = () => {
         if (this.messageText) {
+            const message: TMessage = {
+                id: Math.floor(Math.random() * 999999),
+                text: this.messageText,
+                updated_at: "2020-11-19T23:00:00.000000Z",
+                user: this.rootStore.userStore.currentUser!
+            };
             this.rootStore.dialogStore.currentDialog!.messages = [
-                {
-                    id: Math.floor(Math.random() * 999999),
-                    text: this.messageText,
-                    updated_at: "2020-11-19T23:00:00.000000Z",
-                    user: this.rootStore.userStore.currentUser!
-                },
+                message,
                 ...this.rootStore.dialogStore.currentDialog!.messages
             ];
             this.messageText = "";
