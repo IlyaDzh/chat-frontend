@@ -8,4 +8,10 @@ export class ChatApi {
     static createGroup(postData: FormData) {
         return axiosInstance.post("api/chat/create/group", postData);
     }
+
+    static getMessagesByLastMessageId(chatId: number, messageId: number) {
+        return axiosInstance.get(
+            `api/chat/messages/chat-id=${chatId}&msg-id=${messageId}`
+        );
+    }
 }

@@ -53,6 +53,14 @@ export const MessagesInput: React.FC = observer(() => {
     const { messageStore } = useStores();
     const { messageText, setMessageText, sendMessage } = messageStore;
 
+    const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            event.stopPropagation();
+            sendMessage();
+        }
+    };
+
     return (
         <div className={classes.messagesBottom}>
             <TextField
@@ -62,6 +70,7 @@ export const MessagesInput: React.FC = observer(() => {
                 placeholder="Написать сообщение..."
                 value={messageText}
                 onChange={e => setMessageText(e.target.value)}
+                onKeyDown={onKeyDown}
                 InputProps={{
                     classes: {
                         root: classes.messagesInput,

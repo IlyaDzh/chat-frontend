@@ -8,6 +8,7 @@ import {
     TDialogsType,
     TDialog
 } from "./interfaces/IDialogStore";
+import { TMessage } from "./interfaces/IMessageStore";
 
 export class DialogStore implements IDialogStore {
     dialogs: TDialogs = {
@@ -20,6 +21,10 @@ export class DialogStore implements IDialogStore {
     currentTab: TDialogsType = "direct";
 
     pending: boolean = false;
+
+    messagesPending: boolean = false;
+
+    hasMore:boolean = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -35,18 +40,54 @@ export class DialogStore implements IDialogStore {
 
         this.pending = true;
 
-        const type = this.currentTab === "direct" ? 0 : 1;
+        const currentTab = this.currentTab;
+
+        const type = currentTab === "direct" ? 0 : 1;
 
         ChatApi.getDialogsByType(type)
             .then(
                 action(({ data }: AxiosResponse<TDialog[]>) => {
-                    this.dialogs[this.currentTab] = data;
+                    this.dialogs[currentTab] = data;
                 })
             )
             .catch(() => {})
             .finally(
                 action(() => {
                     this.pending = false;
+                })
+            );
+    };
+
+    fetchMessages = () => {
+        if (!this.currentDialog) {
+            return;
+        }
+
+        this.messagesPending = true;
+
+        const lastMessageId = this.currentDialog.messages[
+            this.currentDialog.messages.length - 1
+        ].id;
+        const currentDialogId = this.currentDialog.id;
+        const currentTab = this.currentTab;
+
+        ChatApi.getMessagesByLastMessageId(currentDialogId, lastMessageId)
+            .then(
+                action(({ data }: AxiosResponse<TMessage[]>) => {
+                    if (data.length > 0) {
+                        this.dialogs[currentTab]
+                        ?.filter(dialog => dialog.id === currentDialogId)[0]
+                        .messages.push(...data);
+                        this.hasMore = true;
+                    } else {    
+                        this.hasMore = false;
+                    }
+                })
+            )
+            .catch(() => {})
+            .finally(
+                action(() => {
+                    this.messagesPending = false;
                 })
             );
     };

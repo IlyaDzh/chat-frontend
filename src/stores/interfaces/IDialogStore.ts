@@ -6,7 +6,10 @@ export interface IDialogStore {
     currentDialog: TDialog | undefined;
     currentTab: TDialogsType;
     pending: boolean;
+    messagesPending: boolean;
+    hasMore: boolean;
     fetchDialogs: () => void;
+    fetchMessages: () => void;
     setCurrentTab: (dialogsType: TDialogsType) => void;
     setCurrentDialogById: (id: string) => void;
 }
