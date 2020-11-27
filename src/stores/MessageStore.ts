@@ -1,13 +1,17 @@
 import { action, observable, makeObservable } from "mobx";
 
+import { ChatApi } from "../api";
 import IStores from "./interfaces";
-import { IMessageStore, TMessage } from "./interfaces/IMessageStore";
+import {
+    IMessageStore,
+    TMessage,
+    TMessagePostData
+} from "./interfaces/IMessageStore";
 import { MAX_MESSAGE_COUNT } from "../utils/constants";
+import { TDialog } from "./interfaces/IDialogStore";
 
 export class MessageStore implements IMessageStore {
     messageText: string = "";
-
-    pending: boolean = false;
 
     private rootStore: IStores;
 
@@ -16,7 +20,6 @@ export class MessageStore implements IMessageStore {
 
         makeObservable(this, {
             messageText: observable,
-            pending: observable,
             setMessageText: action,
             sendMessage: action
         });
@@ -30,16 +33,32 @@ export class MessageStore implements IMessageStore {
 
     sendMessage = () => {
         if (this.messageText) {
+            const currentDialog: TDialog = this.rootStore.dialogStore.currentDialog!;
+
+            const randomMessageId: number = Math.random() * 99999;
             const message: TMessage = {
-                id: Math.floor(Math.random() * 999999),
+                id: randomMessageId,
                 text: this.messageText,
-                updated_at: "2020-11-19T23:00:00.000000Z",
-                user: this.rootStore.userStore.currentUser!
+                updated_at: new Date().toDateString(),
+                user: this.rootStore.userStore.currentUser!,
+                pending: true
             };
-            this.rootStore.dialogStore.currentDialog!.messages = [
-                message,
-                ...this.rootStore.dialogStore.currentDialog!.messages
-            ];
+            currentDialog.messages.unshift(message);
+
+            const messageData: TMessagePostData = {
+                chat_id: currentDialog.id,
+                text: this.messageText
+            };
+            ChatApi.sendMessage(messageData).then(
+                action(({ data }: any) => {
+                    const message: TMessage = currentDialog.messages.find(
+                        message => message.id === randomMessageId
+                    )!;
+                    message.pending = false;
+                    message.id = data.data.message.id;
+                })
+            );
+
             this.messageText = "";
         }
     };

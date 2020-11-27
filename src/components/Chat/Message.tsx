@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { Typography, makeStyles, Theme } from "@material-ui/core";
 
 import { Avatar } from "../Avatar";
+import { Loader } from "../Loader";
 import { TMessage } from "../../stores/interfaces/IMessageStore";
 import { formatDate } from "../../utils/formatDate";
 import { TUser } from "../../stores/interfaces/IUserStore";
@@ -10,6 +11,7 @@ import { TUser } from "../../stores/interfaces/IUserStore";
 interface IMessage {
     message: TMessage;
     type: "start" | "middle" | "end";
+    pending?: boolean;
     currentUser?: TUser;
 }
 
@@ -71,10 +73,20 @@ const useStyles = makeStyles((theme: Theme) => ({
         left: isMyMessage ? "unset" : "-50px",
         right: isMyMessage ? "-50px" : "unset",
         bottom: "0"
-    })
+    }),
+    messageLoader: {
+        position: "absolute",
+        left: "-20px",
+        bottom: 0
+    }
 }));
 
-export const Message: React.FC<IMessage> = ({ message, type, currentUser }) => {
+export const Message: React.FC<IMessage> = ({
+    message,
+    type,
+    pending,
+    currentUser
+}) => {
     const isMyMessage: boolean = currentUser?.id === message.user.id;
 
     const classes = useStyles(isMyMessage);
@@ -101,6 +113,11 @@ export const Message: React.FC<IMessage> = ({ message, type, currentUser }) => {
                     <Avatar src={message.user.avatar} alt={message.user.name}>
                         {message.user.name[0]}
                     </Avatar>
+                </div>
+            )}
+            {pending && (
+                <div className={classes.messageLoader}>
+                    <Loader size={16} />
                 </div>
             )}
         </div>

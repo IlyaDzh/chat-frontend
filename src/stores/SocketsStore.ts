@@ -1,22 +1,46 @@
-import Pusher, { Channel } from "pusher-js";
+import Pusher from "pusher-js";
+import { makeObservable, action } from "mobx";
 
-import { ISocketsStore } from "./interfaces/ISocketsStore";
+import IStores from "./interfaces";
+import { ISocketsStore, TNewMessageResponse } from "./interfaces/ISocketsStore";
 
 export class SocketsStore implements ISocketsStore {
     pusher: Pusher | undefined;
 
-    chatChannel: Channel;
+    private rootStore: IStores;
 
-    constructor() {
+    constructor(rootStore: IStores) {
+        this.rootStore = rootStore;
+
+        makeObservable(this, {
+            addNewMessage: action
+        });
+
         this.pusher = new Pusher("657da11b3b498151a232", {
             cluster: "eu",
-            authEndpoint: "http://6abe4b75674a.ngrok.io/socket/auth"
+            authEndpoint: "http://8fae9560e6f6.ngrok.io/socket/auth"
         });
 
-        this.chatChannel = this.pusher.subscribe("chat");
+        this.pusher.subscribe("private-channel");
 
-        this.chatChannel.bind("NewMessage", (data: any) => {
-            console.log("NewMessage", data);
+        this.pusher.bind("NewMessage", (data: TNewMessageResponse) => {
+            if (
+                data.message.message &&
+                this.rootStore.userStore.currentUser?.id !==
+                    data.message.message.user.id
+            ) {
+                this.addNewMessage(data);
+            }
         });
     }
+
+    addNewMessage = (data: TNewMessageResponse) => {
+        const dialogType = data.message.dialogType === 0 ? "direct" : "groups";
+        const currentDialog = this.rootStore.dialogStore.dialogs[dialogType].filter(
+            dialog => dialog.id === data.message.dialogId
+        )[0];
+        if (currentDialog) {
+            currentDialog.messages.unshift(data.message.message);
+        }
+    };
 }

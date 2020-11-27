@@ -1,4 +1,5 @@
 import { axiosInstance } from "./axios-instance";
+import { TMessagePostData } from "../stores/interfaces/IMessageStore";
 
 export class ChatApi {
     static getDialogsByType(type: 0 | 1) {
@@ -13,5 +14,9 @@ export class ChatApi {
         return axiosInstance.get(
             `api/chat/messages/chat-id=${chatId}&msg-id=${messageId}`
         );
+    }
+
+    static sendMessage(postData: TMessagePostData) {
+        return axiosInstance.post("api/chat/messages/send", postData);
     }
 }

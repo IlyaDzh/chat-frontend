@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 
@@ -19,7 +19,13 @@ const HomeRoutes: React.FC = () => (
 
 export const App: React.FC = observer(() => {
     const { userStore } = useStores();
-    const { currentUser, pending } = userStore;
+    const { currentUser, pending, fetchUser } = userStore;
+
+    useEffect(() => {
+        if (localStorage.getItem("accessToken")) {
+            fetchUser();
+        }
+    }, [fetchUser]);
 
     if (pending) {
         return <Backdrop />;

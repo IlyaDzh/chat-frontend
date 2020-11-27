@@ -2,7 +2,6 @@ import { TUser } from "./IUserStore";
 
 export interface IMessageStore {
     messageText: string;
-    pending: boolean;
     setMessageText: (text: string) => void;
     sendMessage: () => void;
 }
@@ -12,4 +11,10 @@ export type TMessage = {
     user: TUser;
     text: string;
     updated_at: string;
+    pending?: boolean;
+};
+
+export type TMessagePostData = {
+    chat_id: number;
+    text: string;
 };
