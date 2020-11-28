@@ -54,6 +54,7 @@ export class CreateGroupStore implements ICreateGroupStore {
                     this.pending = false;
                     this.createModalIsOpen = false;
                     this.resetCreateGroupForm();
+                    this.rootStore.socketsStore.subscribeToChannelById(data.chat.id);
                 })
             )
             .catch(

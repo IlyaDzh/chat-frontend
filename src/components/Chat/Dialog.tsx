@@ -9,6 +9,7 @@ import { formatDate } from "../../utils/formatDate";
 
 interface IDialog {
     dialog: TDialog;
+    lastMessage: string;
     type: TDialogsType;
     isSelected: boolean;
 }
@@ -83,7 +84,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
+export const Dialog: React.FC<IDialog> = ({
+    dialog,
+    lastMessage,
+    type,
+    isSelected
+}) => {
     const classes = useStyles(isSelected);
 
     return (
@@ -125,9 +131,7 @@ export const Dialog: React.FC<IDialog> = ({ dialog, type, isSelected }) => {
                         </Typography>
                     </div>
                     <Typography className={classes.dialogMessage} variant="body2">
-                        {dialog.messages.length > 0
-                            ? dialog.messages[0]?.text
-                            : "Нет сообщений"}
+                        {dialog.messages.length > 0 ? lastMessage : "Нет сообщений"}
                     </Typography>
                 </div>
             </Badge>

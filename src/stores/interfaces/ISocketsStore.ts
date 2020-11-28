@@ -4,6 +4,7 @@ import { TMessage } from "./IMessageStore";
 
 export interface ISocketsStore {
     pusher: Pusher | undefined;
+    subscribeToChannelById: (chatId: number) => void;
 }
 
 export type TNewMessageResponse = {

@@ -29,7 +29,7 @@ class RootStore implements IStores {
     constructor() {
         this.userStore = new UserStore();
         this.loginStore = new LoginStore(this);
-        this.dialogStore = new DialogStore();
+        this.dialogStore = new DialogStore(this);
         this.messageStore = new MessageStore(this);
         this.contactsStore = new ContactsStore();
         this.createGroupStore = new CreateGroupStore(this);

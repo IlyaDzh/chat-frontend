@@ -1,7 +1,8 @@
 import { AxiosResponse } from "axios";
-import { action, makeAutoObservable, reaction } from "mobx";
+import { makeObservable, observable, action, reaction } from "mobx";
 
 import { ChatApi } from "../api";
+import IStores from "./interfaces";
 import {
     IDialogStore,
     TDialogs,
@@ -37,8 +38,28 @@ export class DialogStore implements IDialogStore {
 
     searchDialogs: TDialog[] = [];
 
-    constructor() {
-        makeAutoObservable(this);
+    private rootStore: IStores;
+
+    constructor(rootStore: IStores) {
+        this.rootStore = rootStore;
+
+        makeObservable(this, {
+            dialogs: observable,
+            loaded: observable,
+            currentDialog: observable,
+            currentTab: observable,
+            pending: observable,
+            messagesPending: observable,
+            hasMore: observable,
+            searchText: observable,
+            searchDialogs: observable,
+            fetchDialogs: action,
+            fetchMessages: action,
+            setCurrentDialogById: action,
+            setCurrentTab: action,
+            setSearchText: action,
+            createDirectDialog: action
+        });
 
         reaction(
             () => this.searchText,
@@ -84,6 +105,10 @@ export class DialogStore implements IDialogStore {
                 action(({ data }: AxiosResponse<TDialog[]>) => {
                     this.dialogs[currentTab] = data;
                     this.loaded[currentTab] = true;
+
+                    this.dialogs[currentTab].forEach(dialog =>
+                        this.rootStore.socketsStore.subscribeToChannelById(dialog.id)
+                    );
                 })
             )
             .finally(
@@ -115,7 +140,7 @@ export class DialogStore implements IDialogStore {
                             .messages.push(...data);
                         this.hasMore = true;
                     }
-                    if (data.length < 15) {
+                    if (data.length < 20) {
                         this.hasMore = false;
                     }
                 })
@@ -143,10 +168,13 @@ export class DialogStore implements IDialogStore {
 
     createDirectDialog = async (userId: number): Promise<TCreateDialogResponse> => {
         try {
-            const { data } = await ChatApi.createDirect({
+            const {
+                data
+            }: AxiosResponse<TCreateDialogResponse> = await ChatApi.createDirect({
                 user_id: userId
             });
             this.dialogs["direct"].push(data.chat);
+            this.rootStore.socketsStore.subscribeToChannelById(data.chat.id);
             return data;
         } catch (error) {
             return await Promise.reject(error.response.data);

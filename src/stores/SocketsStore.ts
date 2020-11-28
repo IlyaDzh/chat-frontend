@@ -21,8 +21,6 @@ export class SocketsStore implements ISocketsStore {
             authEndpoint: "http://fcdad143cf88.ngrok.io/socket/auth"
         });
 
-        this.pusher.subscribe("private-channel");
-
         this.pusher.bind("NewMessage", (data: TNewMessageResponse) => {
             if (
                 data.message.message &&
@@ -33,6 +31,10 @@ export class SocketsStore implements ISocketsStore {
             }
         });
     }
+
+    subscribeToChannelById = (chatId: number) => {
+        this.pusher?.subscribe(`private-channel-${chatId}`);
+    };
 
     addNewMessage = (data: TNewMessageResponse) => {
         const dialogType = data.message.dialogType === 0 ? "direct" : "groups";

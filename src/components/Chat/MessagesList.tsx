@@ -41,7 +41,7 @@ export const MessagesList: React.FC = observer(() => {
     }, [currentDialog, fetchMessages]);
 
     const handleScrollList = (e: React.UIEvent<HTMLDivElement>): void => {
-        if (e.currentTarget.scrollTop < 100 && hasMore && !messagesPending) {
+        if (e.currentTarget.scrollTop < 160 && hasMore && !messagesPending) {
             fetchMessages();
         }
     };
