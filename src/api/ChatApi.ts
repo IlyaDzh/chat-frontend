@@ -10,6 +10,10 @@ export class ChatApi {
         return axiosInstance.post("api/chat/create/group", postData);
     }
 
+    static createDirect(postData: { user_id: number }) {
+        return axiosInstance.post("api/chat/create/direct", postData);
+    }
+
     static getMessagesByLastMessageId(chatId: number, messageId: number) {
         return axiosInstance.get(
             `api/chat/messages/chat-id=${chatId}&msg-id=${messageId}`

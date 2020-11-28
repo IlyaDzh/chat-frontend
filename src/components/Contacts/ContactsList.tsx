@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react";
 import { makeStyles } from "@material-ui/core";
 
@@ -24,8 +25,12 @@ const useStyles = makeStyles(() => ({
 
 export const ContactsList: React.FC = observer(() => {
     const classes = useStyles();
-    const { contactsStore } = useStores();
+    const { contactsStore, userInfoModalStore, dialogStore } = useStores();
     const { users, searchUsers, searchText, pending, fetchUsers } = contactsStore;
+    const { setUserInfoModalIsOpen } = userInfoModalStore;
+    const { createDirectDialog } = dialogStore;
+
+    const history = useHistory();
 
     useEffect(() => {
         if (users.length === 0) {
@@ -34,7 +39,22 @@ export const ContactsList: React.FC = observer(() => {
     }, [users, fetchUsers]);
 
     const renderList = (list: TUser[]) => {
-        return list?.map(user => <Contact key={user.id} contact={user} />);
+        return list?.map(user => (
+            <Contact
+                key={user.id}
+                contact={user}
+                handleAvatarClick={() => setUserInfoModalIsOpen(true, user)}
+                handleCreateDirectClick={() =>
+                    createDirectDialog(user.id)
+                        .then(data => {
+                            history.push(`/chat/direct?p=${data.chat.id}`);
+                        })
+                        .catch(data => {
+                            history.push(`/chat/direct?p=${data.chatId}`);
+                        })
+                }
+            />
+        ));
     };
 
     return (

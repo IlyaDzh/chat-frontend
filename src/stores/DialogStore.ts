@@ -7,7 +7,8 @@ import {
     TDialogs,
     TLoadedDialogs,
     TDialogsType,
-    TDialog
+    TDialog,
+    TCreateDialogResponse
 } from "./interfaces/IDialogStore";
 import { TMessage } from "./interfaces/IMessageStore";
 
@@ -85,7 +86,6 @@ export class DialogStore implements IDialogStore {
                     this.loaded[currentTab] = true;
                 })
             )
-            .catch(() => {})
             .finally(
                 action(() => {
                     this.pending = false;
@@ -120,7 +120,6 @@ export class DialogStore implements IDialogStore {
                     }
                 })
             )
-            .catch(() => {})
             .finally(
                 action(() => {
                     this.messagesPending = false;
@@ -140,5 +139,17 @@ export class DialogStore implements IDialogStore {
 
     setSearchText = (searchText: string) => {
         this.searchText = searchText;
+    };
+
+    createDirectDialog = async (userId: number): Promise<TCreateDialogResponse> => {
+        try {
+            const { data } = await ChatApi.createDirect({
+                user_id: userId
+            });
+            this.dialogs["direct"].push(data.chat);
+            return data;
+        } catch (error) {
+            return await Promise.reject(error.response.data);
+        }
     };
 }

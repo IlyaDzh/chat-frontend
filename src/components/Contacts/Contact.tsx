@@ -1,13 +1,14 @@
 import React from "react";
 import { Typography, IconButton, makeStyles, Theme } from "@material-ui/core";
-import { Add, Phone, Videocam } from "@material-ui/icons";
+import { Message, Phone, Videocam } from "@material-ui/icons";
 
 import { Avatar } from "../Avatar";
 import { TUser } from "../../stores/interfaces/IUserStore";
-import { useStores } from "../../stores/useStore";
 
 interface IContact {
     contact: TUser;
+    handleAvatarClick: () => void;
+    handleCreateDirectClick: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,17 +45,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const Contact: React.FC<IContact> = ({ contact }) => {
+export const Contact: React.FC<IContact> = ({
+    contact,
+    handleAvatarClick,
+    handleCreateDirectClick
+}) => {
     const classes = useStyles();
-    const { userInfoModalStore } = useStores();
-    const { setUserInfoModalIsOpen } = userInfoModalStore;
 
     return (
         <div className={classes.contact}>
-            <div
-                className={classes.contactInfo}
-                onClick={() => setUserInfoModalIsOpen(true, contact)}
-            >
+            <div className={classes.contactInfo} onClick={handleAvatarClick}>
                 <Avatar src={contact.avatar} alt={contact.name}>
                     {contact.name && contact.name[0]}
                 </Avatar>
@@ -63,8 +63,11 @@ export const Contact: React.FC<IContact> = ({ contact }) => {
                 </Typography>
             </div>
             <div className={classes.contactActions}>
-                <IconButton className={classes.iconButton}>
-                    <Add classes={{ root: classes.iconButtonSvg }} />
+                <IconButton
+                    className={classes.iconButton}
+                    onClick={handleCreateDirectClick}
+                >
+                    <Message classes={{ root: classes.iconButtonSvg }} />
                 </IconButton>
                 <IconButton className={classes.iconButton}>
                     <Phone classes={{ root: classes.iconButtonSvg }} />

@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { TUser } from "./IUserStore";
 import { TMessage } from "./IMessageStore";
 
@@ -16,6 +17,7 @@ export interface IDialogStore {
     setCurrentTab: (dialogsType: TDialogsType) => void;
     setCurrentDialogById: (id: string) => void;
     setSearchText: (searchText: string) => void;
+    createDirectDialog: (userId: number) => Promise<TCreateDialogResponse>;
 }
 
 export type TDialogsType = "direct" | "groups";
@@ -43,4 +45,9 @@ export type TDialog = {
 export type TCreateGroupData = {
     name: string;
     avatar?: any;
+};
+
+export type TCreateDialogResponse = {
+    chat: TDialog;
+    message: string;
 };

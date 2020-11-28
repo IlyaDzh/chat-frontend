@@ -39,7 +39,6 @@ export class ContactsStore implements IContactsStore {
                     this.users = data;
                 })
             )
-            .catch(() => {})
             .finally(
                 action(() => {
                     this.pending = false;

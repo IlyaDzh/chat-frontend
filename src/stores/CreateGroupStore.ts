@@ -3,11 +3,8 @@ import { observable, action, makeObservable } from "mobx";
 
 import { ChatApi } from "../api";
 import IStores from "./interfaces";
-import {
-    ICreateGroupStore,
-    TCreateGroupForm,
-    TCreateGroupResponse
-} from "./interfaces/ICreateGroupStore";
+import { ICreateGroupStore, TCreateGroupForm } from "./interfaces/ICreateGroupStore";
+import { TCreateDialogResponse } from "./interfaces/IDialogStore";
 
 const INITIAL_CREATE_GROUP_FORM: TCreateGroupForm = {
     name: "",
@@ -52,7 +49,7 @@ export class CreateGroupStore implements ICreateGroupStore {
 
         ChatApi.createGroup(formData)
             .then(
-                action(({ data }: AxiosResponse<TCreateGroupResponse>) => {
+                action(({ data }: AxiosResponse<TCreateDialogResponse>) => {
                     this.rootStore.dialogStore.dialogs.groups.unshift(data.chat);
                     this.pending = false;
                     this.createModalIsOpen = false;
