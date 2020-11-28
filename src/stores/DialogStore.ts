@@ -114,7 +114,8 @@ export class DialogStore implements IDialogStore {
                             .filter(dialog => dialog.id === currentDialogId)[0]
                             .messages.push(...data);
                         this.hasMore = true;
-                    } else {
+                    }
+                    if (data.length < 15) {
                         this.hasMore = false;
                     }
                 })

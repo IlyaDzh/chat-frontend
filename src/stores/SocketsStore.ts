@@ -18,7 +18,7 @@ export class SocketsStore implements ISocketsStore {
 
         this.pusher = new Pusher("657da11b3b498151a232", {
             cluster: "eu",
-            authEndpoint: "http://8fae9560e6f6.ngrok.io/socket/auth"
+            authEndpoint: "http://fcdad143cf88.ngrok.io/socket/auth"
         });
 
         this.pusher.subscribe("private-channel");

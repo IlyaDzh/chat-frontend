@@ -39,7 +39,7 @@ export class MessageStore implements IMessageStore {
             const message: TMessage = {
                 id: randomMessageId,
                 text: this.messageText,
-                updated_at: new Date().toDateString(),
+                updated_at: new Date().toString(),
                 user: this.rootStore.userStore.currentUser!,
                 pending: true
             };
