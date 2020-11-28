@@ -5,6 +5,8 @@ import { MessageStore } from "./MessageStore";
 import { ContactsStore } from "./ContactsStore";
 import { CreateGroupStore } from "./CreateGroupStore";
 import { CreateDirectStore } from "./CreateDirectStore";
+import { UserInfoModalStore } from "./UserInfoModalStore";
+import { AddUsersToGroupModalStore } from "./AddUsersToGroupModalStore";
 import { SocketsStore } from "./SocketsStore";
 import IStores from "./interfaces";
 import { IUserStore } from "./interfaces/IUserStore";
@@ -14,8 +16,8 @@ import { IMessageStore } from "./interfaces/IMessageStore";
 import { IContactsStore } from "./interfaces/IContactsStore";
 import { ICreateGroupStore } from "./interfaces/ICreateGroupStore";
 import { ICreateDirectStore } from "./interfaces/ICreateDirectStore";
-import { UserInfoModalStore } from "./UserInfoModalStore";
 import { IUserInfoModalStore } from "./interfaces/IUserInfoModalStore";
+import { IAddUsersToGroupModalStore } from "./interfaces/IAddUsersToGroupModalStore";
 import { ISocketsStore } from "./interfaces/ISocketsStore";
 
 class RootStore implements IStores {
@@ -27,6 +29,7 @@ class RootStore implements IStores {
     createGroupStore: ICreateGroupStore;
     createDirectStore: ICreateDirectStore;
     userInfoModalStore: IUserInfoModalStore;
+    addUsersToGroupModalStore: IAddUsersToGroupModalStore;
     socketsStore: ISocketsStore;
 
     constructor() {
@@ -38,6 +41,7 @@ class RootStore implements IStores {
         this.createGroupStore = new CreateGroupStore(this);
         this.createDirectStore = new CreateDirectStore(this);
         this.userInfoModalStore = new UserInfoModalStore();
+        this.addUsersToGroupModalStore = new AddUsersToGroupModalStore(this);
         this.socketsStore = new SocketsStore(this);
     }
 }

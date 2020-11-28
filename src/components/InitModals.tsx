@@ -1,10 +1,11 @@
 import React from "react";
 
-import { CreateGroupModal, UserInfoModal } from "./Modals";
+import { CreateGroupModal, UserInfoModal, AddUsersToGroupModal } from "./Modals";
 
 export const InitModals = () => (
     <>
         <CreateGroupModal />
         <UserInfoModal />
+        <AddUsersToGroupModal />
     </>
 );

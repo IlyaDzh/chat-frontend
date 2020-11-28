@@ -42,8 +42,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => {
     const classes = useStyles();
-    const { userInfoModalStore } = useStores();
+    const { userInfoModalStore, addUsersToGroupModalStore } = useStores();
     const { setUserInfoModalIsOpen } = userInfoModalStore;
+    const { setAddUsersToGroupModalIsOpen } = addUsersToGroupModalStore;
 
     return (
         <div className={classes.messagesHeader}>
@@ -78,7 +79,10 @@ export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => 
             </div>
             <div className={classes.messagesHeaderRight}>
                 {currentDialog.type === 1 && (
-                    <IconButton className={classes.iconButton}>
+                    <IconButton
+                        className={classes.iconButton}
+                        onClick={() => setAddUsersToGroupModalIsOpen(true)}
+                    >
                         <Add classes={{ root: classes.iconButtonSvg }} />
                     </IconButton>
                 )}

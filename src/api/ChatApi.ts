@@ -1,5 +1,6 @@
 import { axiosInstance } from "./axios-instance";
 import { TMessagePostData } from "../stores/interfaces/IMessageStore";
+import { TAddUserPostData } from "../stores/interfaces/IAddUsersToGroupModalStore";
 
 export class ChatApi {
     static getDialogsByType(type: 0 | 1) {
@@ -22,5 +23,13 @@ export class ChatApi {
 
     static sendMessage(postData: TMessagePostData) {
         return axiosInstance.post("api/chat/messages/send", postData);
+    }
+
+    static addUserToGroup(postData: TAddUserPostData) {
+        return axiosInstance.post("api/chat/append-user", postData);
+    }
+
+    static getUsersNotIncludedInTheGroup(chatId: number) {
+        return axiosInstance.get(`api/user/outside-chat/chat-id=${chatId}`);
     }
 }
