@@ -4,6 +4,7 @@ import { Add, MoreHoriz, Videocam } from "@material-ui/icons";
 
 import { Avatar } from "../Avatar";
 import { TDialog } from "../../stores/interfaces/IDialogStore";
+import { useStores } from "../../stores/useStore";
 
 interface IMessagesHeader {
     currentDialog: TDialog;
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         borderBottom: "2px solid rgba(0, 0, 0, 0.1)"
     },
     messagesHeaderLeft: {
+        cursor: "pointer",
         display: "flex",
         alignItems: "center"
     },
@@ -40,10 +42,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => {
     const classes = useStyles();
+    const { userInfoModalStore } = useStores();
+    const { setUserInfoModalIsOpen } = userInfoModalStore;
 
     return (
         <div className={classes.messagesHeader}>
-            <div className={classes.messagesHeaderLeft}>
+            <div
+                className={classes.messagesHeaderLeft}
+                onClick={() =>
+                    currentDialog.type === 0 &&
+                    setUserInfoModalIsOpen(true, {
+                        id: currentDialog.id,
+                        avatar: currentDialog.avatar!,
+                        name: currentDialog.name!
+                    })
+                }
+            >
                 <Avatar
                     src={currentDialog.avatar}
                     alt={currentDialog.name}

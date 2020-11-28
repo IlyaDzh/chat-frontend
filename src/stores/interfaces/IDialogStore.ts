@@ -17,7 +17,6 @@ export interface IDialogStore {
     setCurrentTab: (dialogsType: TDialogsType) => void;
     setCurrentDialogById: (id: string) => void;
     setSearchText: (searchText: string) => void;
-    createDirectDialog: (userId: number) => Promise<TCreateDialogResponse>;
 }
 
 export type TDialogsType = "direct" | "groups";

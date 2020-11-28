@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core";
 import { Contact } from "./Contact";
 import { Loader } from "../Loader";
 import { Empty } from "../Empty";
+import { Backdrop } from "../Backdrop";
 import { useStores } from "../../stores/useStore";
 import { TUser } from "../../stores/interfaces/IUserStore";
 
@@ -25,10 +26,10 @@ const useStyles = makeStyles(() => ({
 
 export const ContactsList: React.FC = observer(() => {
     const classes = useStyles();
-    const { contactsStore, userInfoModalStore, dialogStore } = useStores();
+    const { contactsStore, userInfoModalStore, createDirectStore } = useStores();
     const { users, searchUsers, searchText, pending, fetchUsers } = contactsStore;
     const { setUserInfoModalIsOpen } = userInfoModalStore;
-    const { createDirectDialog } = dialogStore;
+    const { pending: createPending, createDirectDialog } = createDirectStore;
 
     const history = useHistory();
 
@@ -56,6 +57,10 @@ export const ContactsList: React.FC = observer(() => {
             />
         ));
     };
+
+    if (createPending) {
+        return <Backdrop loaderSize={55} isTransparent />;
+    }
 
     return (
         <div className={classes.contactsList}>
