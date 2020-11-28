@@ -8,6 +8,7 @@ import { useStores } from "../../stores/useStore";
 
 interface IMessagesHeader {
     currentDialog: TDialog;
+    dialogLength: number;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -40,7 +41,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => {
+export const MessagesHeader: React.FC<IMessagesHeader> = ({
+    currentDialog,
+    dialogLength
+}) => {
     const classes = useStyles();
     const { userInfoModalStore, addUsersToGroupModalStore } = useStores();
     const { setUserInfoModalIsOpen } = userInfoModalStore;
@@ -71,9 +75,9 @@ export const MessagesHeader: React.FC<IMessagesHeader> = ({ currentDialog }) => 
                     <Typography variant="body2" color="textSecondary">
                         {currentDialog.type === 0
                             ? "Был(а) 2 часа назад"
-                            : currentDialog.users?.length === 1
+                            : dialogLength === 1
                             ? "1 участник"
-                            : `${currentDialog.users?.length} участников`}
+                            : `${dialogLength} участников`}
                     </Typography>
                 </div>
             </div>

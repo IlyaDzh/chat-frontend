@@ -35,7 +35,10 @@ export const Messages: React.FC = observer(() => {
 
     return currentDialog ? (
         <div className={classes.messages}>
-            <MessagesHeader currentDialog={currentDialog} />
+            <MessagesHeader
+                currentDialog={currentDialog}
+                dialogLength={currentDialog.users?.length!}
+            />
             <MessagesList />
             <MessagesInput />
         </div>

@@ -68,11 +68,19 @@ export class AddUsersToGroupModalStore implements IAddUsersToGroupModalStore {
             selectedUser.disabled = true;
         }
 
-        ChatApi.addUserToGroup(addUserPostData).catch(() => {
-            if (selectedUser) {
-                selectedUser.disabled = false;
-            }
-        });
+        ChatApi.addUserToGroup(addUserPostData)
+            .then(
+                action(({ data }: AxiosResponse<TUser>) => {
+                    this.rootStore.dialogStore.currentDialog?.users?.push(data);
+                })
+            )
+            .catch(
+                action(() => {
+                    if (selectedUser) {
+                        selectedUser.disabled = false;
+                    }
+                })
+            );
     };
 
     setSearchText = (searchText: string) => {
