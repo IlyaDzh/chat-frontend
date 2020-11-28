@@ -1,0 +1,61 @@
+import React, { useEffect } from "react";
+import { observer } from "mobx-react";
+import { makeStyles } from "@material-ui/core";
+
+import { Contact } from "./Contact";
+import { Loader } from "../Loader";
+import { Empty } from "../Empty";
+import { useStores } from "../../stores/useStore";
+import { TUser } from "../../stores/interfaces/IUserStore";
+
+const useStyles = makeStyles(() => ({
+    contactsList: {
+        overflowY: "auto",
+        height: "calc(100% - 112px)",
+        padding: "0 8px 0 2px"
+    },
+    contactsEmpty: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%"
+    }
+}));
+
+export const ContactsList: React.FC = observer(() => {
+    const classes = useStyles();
+    const { contactsStore } = useStores();
+    const { users, searchUsers, searchText, pending, fetchUsers } = contactsStore;
+
+    useEffect(() => {
+        if (users.length === 0) {
+            fetchUsers();
+        }
+    }, [users, fetchUsers]);
+
+    const renderList = (list: TUser[]) => {
+        return list?.map(user => <Contact key={user.id} contact={user} />);
+    };
+
+    return (
+        <div className={classes.contactsList}>
+            {pending ? (
+                <Loader size={50} isCenter />
+            ) : searchText ? (
+                searchUsers.length > 0 ? (
+                    renderList(searchUsers)
+                ) : (
+                    <div className={classes.contactsEmpty}>
+                        <Empty text="Пользователей не найдено" />
+                    </div>
+                )
+            ) : users.length > 0 ? (
+                renderList(users)
+            ) : (
+                <div className={classes.contactsEmpty}>
+                    <Empty text="Пользователи отсутствуют" />
+                </div>
+            )}
+        </div>
+    );
+});

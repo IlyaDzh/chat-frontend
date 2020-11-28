@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 
-import { Dialogs, Messages, CreateGroupModal } from "../components";
+import { Dialogs, Messages } from "../components";
 
 const useStyles = makeStyles(() => ({
     chatPage: {
@@ -17,8 +17,6 @@ export const ChatPage: React.FC = () => {
         <div className={classes.chatPage}>
             <Dialogs />
             <Messages />
-
-            <CreateGroupModal />
         </div>
     );
 };

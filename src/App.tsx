@@ -2,18 +2,21 @@ import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 
-import { AppBar, Backdrop } from "./components";
+import { AppBar, Backdrop, InitModals } from "./components";
 import { SignInPage, ContactsPage, ChatPage, ErrorPage } from "./pages";
 import { useStores } from "./stores/useStore";
 
 const HomeRoutes: React.FC = () => (
     <section className="home">
         <AppBar />
+
         <Route exact path="/call-history" component={ErrorPage} />
         <Route exact path="/contacts" component={ContactsPage} />
         <Route exact path="/chat/:type" component={ChatPage} />
         <Route exact path="/notifications" component={ErrorPage} />
         <Route exact path="/settings" component={ErrorPage} />
+
+        <InitModals />
     </section>
 );
 

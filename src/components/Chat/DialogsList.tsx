@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
 import { Dialog } from "./Dialog";
-import { DialogsEmpty } from "./DialogsEmpty";
+import { Empty } from "../Empty";
 import { Loader } from "../Loader";
 import { useStores } from "../../stores/useStore";
 import { TDialog, TDialogsType } from "../../stores/interfaces/IDialogStore";
@@ -46,12 +46,12 @@ export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
                 searchDialogs.length > 0 ? (
                     renderList(searchDialogs)
                 ) : (
-                    <DialogsEmpty text="Ничего не найдено" disableImage />
+                    <Empty text="Ничего не найдено" disableImage />
                 )
             ) : dialogs[type].length > 0 ? (
                 renderList(dialogs[type])
             ) : (
-                <DialogsEmpty text="Чатов нет" />
+                <Empty text="Чатов нет" />
             )}
         </div>
     );

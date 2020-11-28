@@ -15,25 +15,34 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     appBarAvatar: {
         padding: "20px"
+    },
+    appBarAvatarInner: {
+        cursor: "pointer"
     }
 }));
 
 export const AppBar: React.FC = observer(() => {
     const classes = useStyles();
-    const { userStore } = useStores();
+    const { userStore, userInfoModalStore } = useStores();
     const { currentUser, doLogout } = userStore;
+    const { setUserInfoModalIsOpen } = userInfoModalStore;
 
     return (
         <aside className={classes.appBar}>
             <div className={classes.appBarAvatar}>
-                <Avatar
-                    src={currentUser?.avatar}
-                    alt={currentUser?.name}
-                    size="large"
-                    isOnline
+                <div
+                    className={classes.appBarAvatarInner}
+                    onClick={() => setUserInfoModalIsOpen(true, currentUser!)}
                 >
-                    {currentUser?.name[0]}
-                </Avatar>
+                    <Avatar
+                        src={currentUser?.avatar}
+                        alt={currentUser?.name}
+                        size="large"
+                        isOnline
+                    >
+                        {currentUser?.name[0]}
+                    </Avatar>
+                </div>
             </div>
 
             <AppBarMenu doLogout={doLogout} />
