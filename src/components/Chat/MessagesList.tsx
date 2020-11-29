@@ -30,9 +30,10 @@ const useStyles = makeStyles(() => ({
 
 export const MessagesList: React.FC = observer(() => {
     const classes = useStyles();
-    const { userStore, dialogStore } = useStores();
+    const { userStore, dialogStore, userInfoModalStore } = useStores();
     const { currentUser } = userStore;
     const { currentDialog, messagesPending, hasMore, fetchMessages } = dialogStore;
+    const { setUserInfoModalIsOpen } = userInfoModalStore;
 
     useEffect(() => {
         if (currentDialog && currentDialog.messages.length === 1) {
@@ -74,6 +75,9 @@ export const MessagesList: React.FC = observer(() => {
                             type={isMiddle ? "middle" : isStart ? "start" : "end"}
                             pending={message.pending}
                             currentUser={currentUser}
+                            handleAvatarClick={() =>
+                                setUserInfoModalIsOpen(true, message.user)
+                            }
                         />
                     );
                 })}

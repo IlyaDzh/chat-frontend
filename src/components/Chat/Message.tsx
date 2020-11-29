@@ -13,6 +13,7 @@ interface IMessage {
     type: "start" | "middle" | "end";
     pending?: boolean;
     currentUser?: TUser;
+    handleAvatarClick: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -69,6 +70,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontWeight: 500
     }),
     avatar: isMyMessage => ({
+        cursor: "pointer",
         position: "absolute",
         left: isMyMessage ? "unset" : "-50px",
         right: isMyMessage ? "-50px" : "unset",
@@ -85,7 +87,8 @@ export const Message: React.FC<IMessage> = ({
     message,
     type,
     pending,
-    currentUser
+    currentUser,
+    handleAvatarClick
 }) => {
     const isMyMessage: boolean = currentUser?.id === message.user.id;
 
@@ -109,7 +112,7 @@ export const Message: React.FC<IMessage> = ({
                 {formatDate(message.updated_at)}
             </Typography>
             {type === "end" && (
-                <div className={classes.avatar}>
+                <div className={classes.avatar} onClick={handleAvatarClick}>
                     <Avatar src={message.user.avatar} alt={message.user.name}>
                         {message.user.name[0]}
                     </Avatar>
