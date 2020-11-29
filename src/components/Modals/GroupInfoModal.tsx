@@ -84,14 +84,16 @@ export const GroupInfoModal: React.FC = observer(() => {
         setGroupInfoModalIsOpen
     } = groupInfoModalStore;
 
-    const groupInfo = currentGroupInfo!;
-
     const handleCloseModal = (): void => {
         setGroupInfoModalIsOpen(false);
     };
 
     const renderList = (list: TUser[]) =>
         list.map(user => <UserItem key={user.id} user={user} />);
+
+    if (!currentGroupInfo) {
+        return null;
+    }
 
     return (
         <Dialog
@@ -104,24 +106,27 @@ export const GroupInfoModal: React.FC = observer(() => {
                     Информация о группе
                 </Typography>
                 <div className={classes.groupInfo}>
-                    <Avatar className={classes.groupAvatar} src={groupInfo.avatar}>
-                        {groupInfo.name![0]}
+                    <Avatar
+                        className={classes.groupAvatar}
+                        src={currentGroupInfo.avatar}
+                    >
+                        {currentGroupInfo.name![0]}
                     </Avatar>
                     <div>
                         <Typography className={classes.groupInfoName} variant="h5">
-                            {groupInfo.name}
+                            {currentGroupInfo.name}
                         </Typography>
                         <Typography variant="body2">
-                            {groupInfo.users!.length === 1
+                            {currentGroupInfo.users?.length === 1
                                 ? "1 участник"
-                                : `${groupInfo.users!.length} участников`}
+                                : `${currentGroupInfo.users?.length} участников`}
                         </Typography>
                     </div>
                 </div>
             </DialogTitle>
             <DialogContent className={classes.dialogContent}>
-                {groupInfo.users!.length > 0 ? (
-                    renderList(groupInfo.users!)
+                {currentGroupInfo.users!.length > 0 ? (
+                    renderList(currentGroupInfo.users!)
                 ) : (
                     <Empty text="Пользователей не найдено" disableImage />
                 )}
