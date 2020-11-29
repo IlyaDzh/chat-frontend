@@ -1,11 +1,17 @@
 import React from "react";
 
-import { CreateGroupModal, UserInfoModal, AddUsersToGroupModal } from "./Modals";
+import {
+    CreateGroupModal,
+    UserInfoModal,
+    GroupInfoModal,
+    AddUsersToGroupModal
+} from "./Modals";
 
-export const InitModals = () => (
+export const InitModals: React.FC = () => (
     <>
         <CreateGroupModal />
         <UserInfoModal />
+        <GroupInfoModal />
         <AddUsersToGroupModal />
     </>
 );

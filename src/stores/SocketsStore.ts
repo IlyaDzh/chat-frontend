@@ -16,9 +16,9 @@ export class SocketsStore implements ISocketsStore {
             addNewMessage: action
         });
 
-        this.pusher = new Pusher("657da11b3b498151a232", {
+        this.pusher = new Pusher(process.env.REACT_APP_PUSHER_TOKEN || "", {
             cluster: "eu",
-            authEndpoint: "http://fcdad143cf88.ngrok.io/socket/auth"
+            authEndpoint: `${process.env.REACT_APP_API_BASE_URL}/socket/auth`
         });
 
         this.pusher.bind("NewMessage", (data: TNewMessageResponse) => {

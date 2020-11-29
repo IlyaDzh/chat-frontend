@@ -46,8 +46,13 @@ export const MessagesHeader: React.FC<IMessagesHeader> = ({
     dialogLength
 }) => {
     const classes = useStyles();
-    const { userInfoModalStore, addUsersToGroupModalStore } = useStores();
+    const {
+        userInfoModalStore,
+        groupInfoModalStore,
+        addUsersToGroupModalStore
+    } = useStores();
     const { setUserInfoModalIsOpen } = userInfoModalStore;
+    const { setGroupInfoModalIsOpen } = groupInfoModalStore;
     const { setAddUsersToGroupModalIsOpen } = addUsersToGroupModalStore;
 
     return (
@@ -55,12 +60,13 @@ export const MessagesHeader: React.FC<IMessagesHeader> = ({
             <div
                 className={classes.messagesHeaderLeft}
                 onClick={() =>
-                    currentDialog.type === 0 &&
-                    setUserInfoModalIsOpen(true, {
-                        id: currentDialog.id,
-                        avatar: currentDialog.avatar!,
-                        name: currentDialog.name!
-                    })
+                    currentDialog.type === 0
+                        ? setUserInfoModalIsOpen(true, {
+                              id: currentDialog.id,
+                              avatar: currentDialog.avatar!,
+                              name: currentDialog.name!
+                          })
+                        : setGroupInfoModalIsOpen(true, currentDialog)
                 }
             >
                 <Avatar

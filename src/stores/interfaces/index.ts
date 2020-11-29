@@ -6,6 +6,7 @@ import { IContactsStore } from "./IContactsStore";
 import { ICreateGroupStore } from "./ICreateGroupStore";
 import { ICreateDirectStore } from "./ICreateDirectStore";
 import { IUserInfoModalStore } from "./IUserInfoModalStore";
+import { IGroupInfoModalStore } from "./IGroupInfoModalStore";
 import { IAddUsersToGroupModalStore } from "./IAddUsersToGroupModalStore";
 import { ISocketsStore } from "./ISocketsStore";
 
@@ -18,6 +19,7 @@ export default interface IStores {
     createGroupStore: ICreateGroupStore;
     createDirectStore: ICreateDirectStore;
     userInfoModalStore: IUserInfoModalStore;
+    groupInfoModalStore: IGroupInfoModalStore;
     addUsersToGroupModalStore: IAddUsersToGroupModalStore;
     socketsStore: ISocketsStore;
 }

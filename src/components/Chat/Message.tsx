@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "relative",
         maxWidth: "450px",
         wordBreak: "break-word",
-        padding: "6px 46px 6px 16px",
-        marginTop: "6px",
+        padding: "8px 46px 8px 16px",
+        marginTop: "5px",
         marginRight: "auto",
-        boxShadow: "1px 1px 4px 0px rgba(0, 0, 0, 0.1)",
+        boxShadow: "1px 1px 3px 0px rgba(0, 0, 0, 0.1)",
         background: theme.palette.secondary.main
     },
     myMessage: {
