@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, makeStyles } from "@material-ui/core";
 
 import image from "../images/error-page.jpg";
+import imageWebp from "../images/error-page.webp";
 
 const useStyles = makeStyles(() => ({
     errorPage: {
@@ -31,7 +32,10 @@ export const ErrorPage: React.FC = () => {
         <div className={classes.errorPage}>
             <div>
                 <div className={classes.errorImage}>
-                    <img src={image} alt="" />
+                    <picture>
+                        <source srcSet={imageWebp} type="image/webp" />
+                        <img src={image} alt="" />
+                    </picture>
                 </div>
                 <Typography className={classes.errorPageTitle} variant="h2">
                     Страница в разработке

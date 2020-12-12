@@ -74,10 +74,8 @@ export const MessagesList: React.FC = observer(() => {
                             message={message}
                             type={isMiddle ? "middle" : isStart ? "start" : "end"}
                             pending={message.pending}
-                            currentUser={currentUser}
-                            handleAvatarClick={() =>
-                                setUserInfoModalIsOpen(true, message.user)
-                            }
+                            currentUserId={currentUser?.id}
+                            setUserInfoModalIsOpen={setUserInfoModalIsOpen}
                         />
                     );
                 })}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import clsx from "clsx";
 import { Typography, makeStyles, Theme } from "@material-ui/core";
 
@@ -12,8 +12,11 @@ interface IMessage {
     message: TMessage;
     type: "start" | "middle" | "end";
     pending?: boolean;
-    currentUser?: TUser;
-    handleAvatarClick: () => void;
+    currentUserId?: number;
+    setUserInfoModalIsOpen: (
+        userInfoModalIsOpen: boolean,
+        user?: TUser | undefined
+    ) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -83,46 +86,45 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const Message: React.FC<IMessage> = ({
-    message,
-    type,
-    pending,
-    currentUser,
-    handleAvatarClick
-}) => {
-    const isMyMessage: boolean = currentUser?.id === message.user.id;
+export const Message: React.FC<IMessage> = memo(
+    ({ message, type, pending, currentUserId, setUserInfoModalIsOpen }) => {
+        const isMyMessage: boolean = currentUserId === message.user.id;
 
-    const classes = useStyles(isMyMessage);
+        const classes = useStyles(isMyMessage);
 
-    return (
-        <div
-            className={clsx(
-                classes.message,
-                isMyMessage && classes.myMessage,
-                type === "start" && classes.startMessage,
-                type === "middle" && classes.middleMessage,
-                type === "end" && classes.endMessage,
-                type === "end" && classes.marginBottom
-            )}
-        >
-            <Typography className={classes.messageText} variant="body1">
-                {message.text}
-            </Typography>
-            <Typography className={classes.messageDate} variant="caption">
-                {formatDate(message.updated_at)}
-            </Typography>
-            {type === "end" && (
-                <div className={classes.avatar} onClick={handleAvatarClick}>
-                    <Avatar src={message.user.avatar} alt={message.user.name}>
-                        {message.user.name[0]}
-                    </Avatar>
-                </div>
-            )}
-            {pending && (
-                <div className={classes.messageLoader}>
-                    <Loader size={16} />
-                </div>
-            )}
-        </div>
-    );
-};
+        return (
+            <div
+                className={clsx(
+                    classes.message,
+                    isMyMessage && classes.myMessage,
+                    type === "start" && classes.startMessage,
+                    type === "middle" && classes.middleMessage,
+                    type === "end" && classes.endMessage,
+                    type === "end" && classes.marginBottom
+                )}
+            >
+                <Typography className={classes.messageText} variant="body1">
+                    {message.text}
+                </Typography>
+                <Typography className={classes.messageDate} variant="caption">
+                    {formatDate(message.updated_at)}
+                </Typography>
+                {type === "end" && (
+                    <div
+                        className={classes.avatar}
+                        onClick={() => setUserInfoModalIsOpen(true, message.user)}
+                    >
+                        <Avatar src={message.user.avatar} alt={message.user.name}>
+                            {message.user.name[0]}
+                        </Avatar>
+                    </div>
+                )}
+                {pending && (
+                    <div className={classes.messageLoader}>
+                        <Loader size={16} />
+                    </div>
+                )}
+            </div>
+        );
+    }
+);

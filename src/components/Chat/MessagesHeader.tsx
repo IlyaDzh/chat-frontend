@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Typography, IconButton, makeStyles, Theme } from "@material-ui/core";
 import { Add, MoreHoriz, Videocam } from "@material-ui/icons";
 
@@ -41,68 +41,67 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export const MessagesHeader: React.FC<IMessagesHeader> = ({
-    currentDialog,
-    dialogLength
-}) => {
-    const classes = useStyles();
-    const {
-        userInfoModalStore,
-        groupInfoModalStore,
-        addUsersToGroupModalStore
-    } = useStores();
-    const { setUserInfoModalIsOpen } = userInfoModalStore;
-    const { setGroupInfoModalIsOpen } = groupInfoModalStore;
-    const { setAddUsersToGroupModalIsOpen } = addUsersToGroupModalStore;
+export const MessagesHeader: React.FC<IMessagesHeader> = memo(
+    ({ currentDialog, dialogLength }) => {
+        const classes = useStyles();
+        const {
+            userInfoModalStore,
+            groupInfoModalStore,
+            addUsersToGroupModalStore
+        } = useStores();
+        const { setUserInfoModalIsOpen } = userInfoModalStore;
+        const { setGroupInfoModalIsOpen } = groupInfoModalStore;
+        const { setAddUsersToGroupModalIsOpen } = addUsersToGroupModalStore;
 
-    return (
-        <div className={classes.messagesHeader}>
-            <div
-                className={classes.messagesHeaderLeft}
-                onClick={() =>
-                    currentDialog.type === 0
-                        ? setUserInfoModalIsOpen(true, {
-                              id: currentDialog.id,
-                              avatar: currentDialog.avatar!,
-                              name: currentDialog.name!
-                          })
-                        : setGroupInfoModalIsOpen(true, currentDialog)
-                }
-            >
-                <Avatar
-                    src={currentDialog.avatar}
-                    alt={currentDialog.name}
-                    size="large"
+        return (
+            <div className={classes.messagesHeader}>
+                <div
+                    className={classes.messagesHeaderLeft}
+                    onClick={() =>
+                        currentDialog.type === 0
+                            ? setUserInfoModalIsOpen(true, {
+                                  id: currentDialog.id,
+                                  avatar: currentDialog.avatar!,
+                                  name: currentDialog.name!
+                              })
+                            : setGroupInfoModalIsOpen(true, currentDialog)
+                    }
                 >
-                    {currentDialog.name && currentDialog.name[0]}
-                </Avatar>
-                <div className={classes.messagesUserInfo}>
-                    <Typography variant="h6">{currentDialog.name}</Typography>
-                    <Typography variant="body2" color="textSecondary">
-                        {currentDialog.type === 0
-                            ? "Был(а) 2 часа назад"
-                            : dialogLength === 1
-                            ? "1 участник"
-                            : `${dialogLength} участников`}
-                    </Typography>
+                    <Avatar
+                        src={currentDialog.avatar}
+                        alt={currentDialog.name}
+                        size="large"
+                    >
+                        {currentDialog.name && currentDialog.name[0]}
+                    </Avatar>
+                    <div className={classes.messagesUserInfo}>
+                        <Typography variant="h6">{currentDialog.name}</Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            {currentDialog.type === 0
+                                ? "Был(а) 2 часа назад"
+                                : dialogLength === 1
+                                ? "1 участник"
+                                : `${dialogLength} участников`}
+                        </Typography>
+                    </div>
+                </div>
+                <div className={classes.messagesHeaderRight}>
+                    {currentDialog.type === 1 && (
+                        <IconButton
+                            className={classes.iconButton}
+                            onClick={() => setAddUsersToGroupModalIsOpen(true)}
+                        >
+                            <Add classes={{ root: classes.iconButtonSvg }} />
+                        </IconButton>
+                    )}
+                    <IconButton className={classes.iconButton}>
+                        <Videocam classes={{ root: classes.iconButtonSvg }} />
+                    </IconButton>
+                    <IconButton className={classes.iconButton}>
+                        <MoreHoriz classes={{ root: classes.iconButtonSvg }} />
+                    </IconButton>
                 </div>
             </div>
-            <div className={classes.messagesHeaderRight}>
-                {currentDialog.type === 1 && (
-                    <IconButton
-                        className={classes.iconButton}
-                        onClick={() => setAddUsersToGroupModalIsOpen(true)}
-                    >
-                        <Add classes={{ root: classes.iconButtonSvg }} />
-                    </IconButton>
-                )}
-                <IconButton className={classes.iconButton}>
-                    <Videocam classes={{ root: classes.iconButtonSvg }} />
-                </IconButton>
-                <IconButton className={classes.iconButton}>
-                    <MoreHoriz classes={{ root: classes.iconButtonSvg }} />
-                </IconButton>
-            </div>
-        </div>
-    );
-};
+        );
+    }
+);
