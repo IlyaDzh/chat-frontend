@@ -32,7 +32,11 @@ export const DialogsList: React.FC<IDialogsList> = observer(({ type }) => {
             <Dialog
                 key={dialog.id}
                 dialog={dialog}
-                lastMessage={dialog.messages[0]?.text}
+                lastMessage={
+                    dialog.messages[0] && dialog.messages[0].text
+                        ? dialog.messages[0].text
+                        : "Файл"
+                }
                 type={type}
                 isSelected={query.get("p") === dialog.id.toString()}
             />

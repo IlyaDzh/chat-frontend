@@ -1,12 +1,14 @@
 import React, { memo } from "react";
 import clsx from "clsx";
 import { Typography, makeStyles, Theme } from "@material-ui/core";
+import { InsertDriveFile as InsertDriveFileIcon } from "@material-ui/icons";
 
 import { Avatar } from "../Avatar";
 import { Loader } from "../Loader";
 import { TMessage } from "../../stores/interfaces/IMessageStore";
 import { formatDate } from "../../utils/formatDate";
 import { TUser } from "../../stores/interfaces/IUserStore";
+import { bytesToMegaBytes } from "../../utils/formatSize";
 
 interface IMessage {
     message: TMessage;
@@ -34,6 +36,14 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginLeft: "auto",
         marginRight: "unset",
         background: theme.palette.primary.main
+    },
+    imageMessage: {
+        background: "transparent !important",
+        padding: "0 !important",
+        boxShadow: "none !important",
+        "&::after": {
+            content: "none !important"
+        }
     },
     marginBottom: {
         marginBottom: "12px"
@@ -83,7 +93,32 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "absolute",
         left: "-20px",
         bottom: 0
-    }
+    },
+    image: {
+        width: "100%",
+        borderRadius: "18px"
+    },
+    file: {
+        display: "flex",
+        alignItems: "center",
+        textDecoration: "none"
+    },
+    fileIcon: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "50px",
+        height: "50px",
+        borderRadius: "50%",
+        backgroundColor: theme.palette.background.dark,
+        marginRight: "12px"
+    },
+    fileName: isMyMessage => ({
+        color: isMyMessage ? "#fff" : "unset"
+    }),
+    fileSize: isMyMessage => ({
+        color: isMyMessage ? "#fff" : "unset"
+    })
 }));
 
 export const Message: React.FC<IMessage> = memo(
@@ -92,20 +127,60 @@ export const Message: React.FC<IMessage> = memo(
 
         const classes = useStyles(isMyMessage);
 
+        const messageIsImage: boolean = message.file
+            ? /[\\/.](gif|jpg|jpeg|webp|tiff|png)$/i.test(message.file.type)
+            : false;
+
         return (
             <div
                 className={clsx(
                     classes.message,
                     isMyMessage && classes.myMessage,
+                    messageIsImage && classes.imageMessage,
                     type === "start" && classes.startMessage,
                     type === "middle" && classes.middleMessage,
                     type === "end" && classes.endMessage,
                     type === "end" && classes.marginBottom
                 )}
             >
-                <Typography className={classes.messageText} variant="body1">
-                    {message.text}
-                </Typography>
+                {message.text && (
+                    <Typography className={classes.messageText} variant="body1">
+                        {message.text}
+                    </Typography>
+                )}
+                {message.file &&
+                    (messageIsImage ? (
+                        <img
+                            className={classes.image}
+                            src={URL.createObjectURL(message.file)}
+                            alt=""
+                        />
+                    ) : (
+                        <a
+                            className={classes.file}
+                            href="https://www.google.ru/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <div className={classes.fileIcon}>
+                                <InsertDriveFileIcon color="secondary" />
+                            </div>
+                            <div>
+                                <Typography
+                                    variant="body1"
+                                    className={classes.fileName}
+                                >
+                                    {message.file?.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    className={classes.fileSize}
+                                >
+                                    {bytesToMegaBytes(message.file!.size)}
+                                </Typography>
+                            </div>
+                        </a>
+                    ))}
                 <Typography className={classes.messageDate} variant="caption">
                     {formatDate(message.updated_at)}
                 </Typography>

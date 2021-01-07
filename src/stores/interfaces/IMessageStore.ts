@@ -9,7 +9,8 @@ export interface IMessageStore {
 export type TMessage = {
     id: number;
     user: TUser;
-    text: string;
+    text?: string;
+    file?: File;
     updated_at: string;
     pending?: boolean;
 };

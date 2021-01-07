@@ -50,14 +50,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const MessagesInput: React.FC = observer(() => {
     const classes = useStyles();
-    const { messageStore } = useStores();
+    const { messageStore, filesStore } = useStores();
     const { messageText, setMessageText, sendMessage } = messageStore;
+    const { setFiles, sendFiles } = filesStore;
 
     const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
         if (event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
             sendMessage();
+        }
+    };
+
+    const handleFileAttachment = (files: any): void => {
+        if (files && files.length !== 0) {
+            setFiles(files);
+            sendFiles();
         }
     };
 
@@ -78,8 +86,16 @@ export const MessagesInput: React.FC = observer(() => {
                     },
                     startAdornment: (
                         <InputAdornment position="start">
-                            <IconButton>
+                            <IconButton component="label">
                                 <AttachFile classes={{ root: classes.inputSvg }} />
+                                <input
+                                    type="file"
+                                    style={{ display: "none" }}
+                                    onChange={event =>
+                                        handleFileAttachment(event.target.files)
+                                    }
+                                    multiple
+                                />
                             </IconButton>
                         </InputAdornment>
                     ),

@@ -2,6 +2,7 @@ import { IUserStore } from "./IUserStore";
 import { ILoginStore } from "./ILoginStore";
 import { IDialogStore } from "./IDialogStore";
 import { IMessageStore } from "./IMessageStore";
+import { IFilesStore } from "./IFilesStore";
 import { IContactsStore } from "./IContactsStore";
 import { ICreateGroupStore } from "./ICreateGroupStore";
 import { ICreateDirectStore } from "./ICreateDirectStore";
@@ -15,6 +16,7 @@ export default interface IStores {
     loginStore: ILoginStore;
     dialogStore: IDialogStore;
     messageStore: IMessageStore;
+    filesStore: IFilesStore;
     contactsStore: IContactsStore;
     createGroupStore: ICreateGroupStore;
     createDirectStore: ICreateDirectStore;

@@ -25,6 +25,10 @@ export class ChatApi {
         return axiosInstance.post("api/chat/messages/send", postData);
     }
 
+    static sendFile(postData: FormData) {
+        return axiosInstance.post("api/chat/messages/send", postData);
+    }
+
     static addUserToGroup(postData: TAddUserPostData) {
         return axiosInstance.post("api/chat/append-user", postData);
     }
