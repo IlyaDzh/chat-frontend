@@ -1,5 +1,4 @@
 import { axiosInstance } from "./axios-instance";
-import { TMessagePostData } from "../stores/interfaces/IMessageStore";
 import { TAddUserPostData } from "../stores/interfaces/IAddUsersToGroupModalStore";
 
 export class ChatApi {
@@ -21,11 +20,7 @@ export class ChatApi {
         );
     }
 
-    static sendMessage(postData: TMessagePostData) {
-        return axiosInstance.post("api/chat/messages/send", postData);
-    }
-
-    static sendFile(postData: FormData) {
+    static sendMessage(postData: FormData) {
         return axiosInstance.post("api/chat/messages/send", postData);
     }
 

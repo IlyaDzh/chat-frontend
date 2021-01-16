@@ -39,7 +39,7 @@ export class SocketsStore implements ISocketsStore {
     addNewMessage = (data: TNewMessageResponse) => {
         const dialogType = data.message.dialogType === 0 ? "direct" : "groups";
         const currentDialog = this.rootStore.dialogStore.dialogs[dialogType].filter(
-            dialog => dialog.id === data.message.dialogId
+            dialog => dialog.id === Number(data.message.dialogId)
         )[0];
         if (currentDialog) {
             currentDialog.messages.unshift(data.message.message);

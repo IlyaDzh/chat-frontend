@@ -33,35 +33,27 @@ export class FilesStore implements IFilesStore {
                 const randomMessageId: number = Math.random() * 99999;
                 const message: TMessage = {
                     id: randomMessageId,
-                    file: file,
+                    mediaTemp: file,
                     updated_at: new Date().toString(),
                     user: this.rootStore.userStore.currentUser!,
                     pending: true
                 };
                 currentDialog.messages.unshift(message);
 
-                // const formData = new FormData();
-                // formData.append("chat_id", currentDialog.id.toString());
-                // formData.append("file", file as any);
+                const formData = new FormData();
+                formData.append("chat_id", currentDialog.id.toString());
+                formData.append("media", file as any);
 
-                // ChatApi.sendFile(formData).then(
-                //     action(({ data }: any) => {
-                //         const message: TMessage = currentDialog.messages.find(
-                //             message => message.id === randomMessageId
-                //         )!;
-                //         message.pending = false;
-                //         message.id = data.data.message.id;
-                //     })
-                // );
-
-                setTimeout(
-                    action(() => {
+                ChatApi.sendMessage(formData).then(
+                    action(({ data }: any) => {
                         const message: TMessage = currentDialog.messages.find(
                             message => message.id === randomMessageId
                         )!;
                         message.pending = false;
-                    }),
-                    2000
+                        message.id = data.data.message.id;
+                        message.mediaName = data.data.message.media.mediaName;
+                        message.media = data.data.message.media;
+                    })
                 );
             });
 

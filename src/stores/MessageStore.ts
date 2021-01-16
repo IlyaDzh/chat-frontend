@@ -2,11 +2,7 @@ import { action, observable, makeObservable } from "mobx";
 
 import { ChatApi } from "../api";
 import IStores from "./interfaces";
-import {
-    IMessageStore,
-    TMessage,
-    TMessagePostData
-} from "./interfaces/IMessageStore";
+import { IMessageStore, TMessage } from "./interfaces/IMessageStore";
 import { MAX_MESSAGE_COUNT } from "../utils/constants";
 import { TDialog } from "./interfaces/IDialogStore";
 
@@ -45,11 +41,11 @@ export class MessageStore implements IMessageStore {
             };
             currentDialog.messages.unshift(message);
 
-            const messageData: TMessagePostData = {
-                chat_id: currentDialog.id,
-                text: this.messageText
-            };
-            ChatApi.sendMessage(messageData).then(
+            const formData = new FormData();
+            formData.append("chat_id", currentDialog.id.toString());
+            formData.append("text", this.messageText);
+
+            ChatApi.sendMessage(formData).then(
                 action(({ data }: any) => {
                     const message: TMessage = currentDialog.messages.find(
                         message => message.id === randomMessageId

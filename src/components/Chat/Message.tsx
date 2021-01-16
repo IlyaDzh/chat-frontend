@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "relative",
         maxWidth: "450px",
         wordBreak: "break-word",
-        padding: "8px 46px 8px 16px",
+        padding: "10px 46px 10px 16px",
         marginTop: "5px",
         marginRight: "auto",
         boxShadow: "1px 1px 3px 0px rgba(0, 0, 0, 0.1)",
@@ -107,17 +107,17 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "50px",
-        height: "50px",
+        minWidth: "50px",
+        minHeight: "50px",
         borderRadius: "50%",
         backgroundColor: theme.palette.background.dark,
         marginRight: "12px"
     },
     fileName: isMyMessage => ({
-        color: isMyMessage ? "#fff" : "unset"
+        color: isMyMessage ? "#fff" : theme.palette.text.primary
     }),
     fileSize: isMyMessage => ({
-        color: isMyMessage ? "#fff" : "unset"
+        color: isMyMessage ? "#fff" : theme.palette.text.primary
     })
 }));
 
@@ -127,9 +127,14 @@ export const Message: React.FC<IMessage> = memo(
 
         const classes = useStyles(isMyMessage);
 
-        const messageIsImage: boolean = message.file
-            ? /[\\/.](gif|jpg|jpeg|webp|tiff|png)$/i.test(message.file.type)
-            : false;
+        const messageIsImage: boolean =
+            message.media || message.mediaTemp
+                ? /[\\/.](gif|jpg|jpeg|webp|tiff|png)$/i.test(
+                      message.mediaTemp
+                          ? message.mediaTemp.type
+                          : `image/${message.mediaExtention!}`
+                  )
+                : false;
 
         return (
             <div
@@ -148,17 +153,20 @@ export const Message: React.FC<IMessage> = memo(
                         {message.text}
                     </Typography>
                 )}
-                {message.file &&
+                {(message.media || message.mediaTemp) &&
                     (messageIsImage ? (
                         <img
                             className={classes.image}
-                            src={URL.createObjectURL(message.file)}
+                            src={
+                                message.media ||
+                                URL.createObjectURL(message.mediaTemp)
+                            }
                             alt=""
                         />
                     ) : (
                         <a
                             className={classes.file}
-                            href="https://www.google.ru/"
+                            href={message.media}
                             target="_blank"
                             rel="noreferrer"
                         >
@@ -170,13 +178,17 @@ export const Message: React.FC<IMessage> = memo(
                                     variant="body1"
                                     className={classes.fileName}
                                 >
-                                    {message.file?.name}
+                                    {message.mediaName
+                                        ? `${message.mediaName}.${message.mediaExtention}`
+                                        : message.mediaTemp?.name}
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     className={classes.fileSize}
                                 >
-                                    {bytesToMegaBytes(message.file!.size)}
+                                    {message.mediaSize
+                                        ? bytesToMegaBytes(message.mediaSize)
+                                        : bytesToMegaBytes(message.mediaTemp!.size)}
                                 </Typography>
                             </div>
                         </a>

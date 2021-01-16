@@ -10,12 +10,26 @@ export type TMessage = {
     id: number;
     user: TUser;
     text?: string;
-    file?: File;
+    media?: string;
+    mediaTemp?: File;
+    mediaExtention?: string;
+    mediaName?: string;
+    mediaSize?: number;
     updated_at: string;
     pending?: boolean;
 };
 
-export type TMessagePostData = {
-    chat_id: number;
-    text: string;
-};
+// export type TMessage = {
+//     id: number;
+//     user: TUser;
+//     text?: string;
+//     media?: {
+//         mediaTemp?: File;
+//         mediaLink?: string;
+//         mediaType: string;
+//         mediaName?: string;
+//         mediaSize?: string;
+//     };
+//     updated_at: string;
+//     pending?: boolean;
+// };
